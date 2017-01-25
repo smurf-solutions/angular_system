@@ -7,7 +7,7 @@
     paths: {
       // paths serve as alias
       'npm:': 'https://smurf-solutions.github.io/node_modules/',
-      'apm:': 'https://smurf-solutions.github.io/angular_system/',
+      'spm:': 'https://smurf-solutions.github.io/angular_system/',
       'app:': './app/'
     },
     // map tells the System loader where to look for things
@@ -33,9 +33,9 @@
 
       '@app/service':              'app:app.service.js',
 
-      '@sys/not-found':            'apm:not-found/not-found.js',
-      '@sys/pipes':                'apm:pipes/index.js',
-      '@sys/material':             'apm:material/index.js',
+      '@sys/not-found':            'spm:not-found/not-found.js',
+      '@sys/pipes':                'spm:pipes/index.js',
+      '@sys/material':             'spm:material/index.js',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
