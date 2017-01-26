@@ -6,16 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-//import { CompanyConfig } from '../company.config.js';
-var AppService = AppService_1 = (function () {
-    function AppService() {
-        //public  company  = CompanyConfig;
+var SysService = (function () {
+    function SysService() {
         this.storage = {};
     }
-    /**
-    Store and Restore object
-    */
-    AppService.prototype.store = function (obj, key, exclude) {
+    SysService.prototype.store = function (obj, key, exclude) {
         var _this = this;
         this.storage[key] = this.storage[key] || {};
         if (!exclude) {
@@ -25,23 +20,22 @@ var AppService = AppService_1 = (function () {
             exclude = exclude || [];
             var methods = Object.keys(obj);
             methods.forEach(function (method) {
-                if (!(obj[method] instanceof AppService_1))
+                if (!(obj[method] instanceof AppService))
                     if (exclude.indexOf(method) == -1)
                         _this.storage[key][method] = obj[method];
             });
         }
     };
-    AppService.prototype.restore = function (obj, key) {
+    SysService.prototype.restore = function (obj, key) {
         var _this = this;
         if (this.storage[key]) {
             var methods = Object.keys(this.storage[key]);
             methods.forEach(function (method) { return obj[method] = _this.storage[key][method]; });
         }
     };
-    return AppService;
+    return SysService;
 }());
-AppService = AppService_1 = __decorate([
+SysService = __decorate([
     core_1.Injectable()
-], AppService);
-exports.AppService = AppService;
-var AppService_1;
+], SysService);
+exports.SysService = SysService;

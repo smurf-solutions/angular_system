@@ -2,7 +2,7 @@ import { Injectable }    from '@angular/core';
 //import { CompanyConfig } from '../company.config.js';
 
 @Injectable()
-export class AppService {
+export class SysService {
 	//public  company  = CompanyConfig;
 	private storage  = {};
 
