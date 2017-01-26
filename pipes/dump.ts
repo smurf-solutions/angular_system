@@ -1,10 +1,10 @@
 /**
-	Usage set: | dump : 'key_saved_in_AppService'
-	Usage get: AppService.dump.key_saved_in_AppService']
+	Usage set: | dump : 'key_saved_in_SysService'
+	Usage get: SysService.dump.key_saved_in_SysService']
 **/
 import { NgModule, Pipe } from '@angular/core';
 
-import { AppService }     from '@app/service';
+import { SysService }     from '@sys/service';
 
 
 @Pipe({
@@ -12,7 +12,7 @@ import { AppService }     from '@app/service';
 })
 export class DumpPipe {
 	constructor(
-		private app: AppService
+		private app: SysService
 	){}
 
     transform( items: object[], obj: object ) {
