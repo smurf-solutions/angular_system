@@ -19,7 +19,7 @@ export class SysService {
 			exclude = exclude || [];
 
 			let methods = Object.keys( obj );
-			methods.forEach( method => { if(!(obj[method] instanceof AppService))
+			methods.forEach( method => { if(!(obj[method] instanceof SysService))
 				if( exclude.indexOf( method ) == -1 )  this.storage[key][method] = obj[method];
 			});
 		}

@@ -23,7 +23,7 @@ var SysService = (function () {
             exclude = exclude || [];
             var methods = Object.keys(obj);
             methods.forEach(function (method) {
-                if (!(obj[method] instanceof AppService))
+                if (!(obj[method] instanceof SysService))
                     if (exclude.indexOf(method) == -1)
                         _this.storage[key][method] = obj[method];
             });
