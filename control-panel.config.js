@@ -31,8 +31,8 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
-      '@app/service':              'app:app.service.js',
-
+      //'@app/service':              'app:app.service.js',
+      '@sys/service':              'spm:services/sys.service.js',
       '@sys/not-found':            'spm:not-found/not-found.js',
       '@sys/pipes':                'spm:pipes/index.js',
       '@sys/material':             'spm:material/index.js',

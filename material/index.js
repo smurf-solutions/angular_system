@@ -9,9 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-//import {SelectModule} from 'angular2-select';
 var pagination_js_1 = require('./pagination.js');
-//import { SelectModule } from './select2/angular2-select.js';
 var AppMaterialModules = (function () {
     function AppMaterialModules() {
     }

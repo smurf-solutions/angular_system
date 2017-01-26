@@ -16,7 +16,6 @@ var DialogsService = (function () {
         this.dialog = dialog;
     }
     DialogsService.prototype.confirm = function (title, message, viewContainerRef) {
-        //public confirm(title, message, viewContainerRef) {
         var dialogRef;
         var config = new material_1.MdDialogConfig();
         config.viewContainerRef = viewContainerRef;
@@ -32,7 +31,6 @@ var DialogsService = (function () {
     return DialogsService;
 }());
 exports.DialogsService = DialogsService;
-/*****************************************/
 var core_2 = require('@angular/core');
 var material_2 = require('@angular/material');
 var DialogsModule = (function () {

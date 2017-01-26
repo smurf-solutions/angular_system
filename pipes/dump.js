@@ -8,10 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
-    Usage set: | dump : 'key_saved_in_AppService'
-    Usage get: AppService.dump.key_saved_in_AppService']
-**/
 var core_1 = require('@angular/core');
 var service_1 = require('@app/service');
 var DumpPipe = (function () {

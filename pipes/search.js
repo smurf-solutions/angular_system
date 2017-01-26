@@ -8,10 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
-    Usage: [array of objects] | search : 'term' : [array of keys] : objInfo
-    !!! objInfo трябва да е бил инициализиран предварително като обект !!!
-**/
 var core_1 = require('@angular/core');
 var SearchPipe = (function () {
     function SearchPipe() {
@@ -33,16 +29,6 @@ var SearchPipe = (function () {
         term = term.toString().trim().toLowerCase();
         var that = this;
         var ret = items.filter(function (item) { return that.search(item, term); });
-        /*
-        let terms = term.split(' ');
-        let ret = items;
-        terms.forEach( function(term) {
-            ret =
-                ret.filter( item => {
-                    return that.search( item, term );
-                } )
-            ;
-        });*/
         return this.dump(items, ret, info);
     };
     SearchPipe.prototype.dump = function (items, ret, info) {
