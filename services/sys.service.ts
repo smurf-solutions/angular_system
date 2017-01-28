@@ -1,12 +1,10 @@
-import { Injectable }    from '@angular/core';
-//import { CompanyConfig } from '../company.config.js';
+import { Injectable }         from '@angular/core';
+
 
 @Injectable()
 export class SysService {
-	//public  company  = CompanyConfig;
 	private storage  = {};
-
-
+	
 	/**
 	Store and Restore object
 	*/

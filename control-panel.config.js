@@ -31,18 +31,18 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
-      //'@app/service':              'app:app.service.js',
-      '@sys/service':              'spm:services/sys.service.js',
-      '@sys/not-found':            'spm:not-found/not-found.js',
-      '@sys/pipes':                'spm:pipes/index.js',
-      '@sys/material':             'spm:material/index.js',
+      '@sys' :                     'spm:angular_system',
+	  '@sys/services':             'spm:angular_system/services/index.js',
+	  '@sys/not-found':            'spm:angular_system/not-found/index.js',
+      '@sys/pipes':                'spm:angular_system/pipes/index.js',
+      '@sys/material':             'spm:angular_system/material/index.js',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
-	  /*src: {
+	  src: {
         format: 'register',
         defaultExtension: 'js'
-      },*/
+      },
       app: {
         main: './main.js',
         defaultExtension: 'js'

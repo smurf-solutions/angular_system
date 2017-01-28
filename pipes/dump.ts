@@ -4,7 +4,7 @@
 **/
 import { NgModule, Pipe } from '@angular/core';
 
-import { SysService }     from '@sys/service';
+import { SysService }     from '@sys/services';
 
 
 @Pipe({
