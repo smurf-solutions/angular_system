@@ -15,9 +15,9 @@ var getValueOfTypePipe = (function () {
     getValueOfTypePipe.prototype.transform = function (input, type) {
         var ret = null;
         if (input instanceof Array) {
-            input.forEach(function (k, v) {
-                if (k == type)
-                    ret = v;
+            input.forEach(function (k) {
+                if (k.type == type)
+                    ret = k.value;
             });
         }
         return ret;

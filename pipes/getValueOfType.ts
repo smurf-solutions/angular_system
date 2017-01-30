@@ -15,8 +15,8 @@ export class getValueOfTypePipe {
 	transform( input: obj[], type: string ) {
 		let ret = null;
 		if( input instanceof Array ) {
-			input.forEach((k,v)=>{
-				if(k==type) ret=v;
+			input.forEach((k)=>{
+				if(k.type==type) ret=k.value;
 			});
 		}
 		return ret;
