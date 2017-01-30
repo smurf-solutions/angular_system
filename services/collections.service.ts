@@ -17,6 +17,8 @@ export class CollectionsService {
 	) {}
 	
 	handleError( error ) {
+		console.log(error); 
+		return;
 		let errMsg: string;
 		if (error instanceof Response) {
 		  const body = error.json() || '';

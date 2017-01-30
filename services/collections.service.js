@@ -19,6 +19,8 @@ var CollectionsService = (function () {
         this.data = {};
     }
     CollectionsService.prototype.handleError = function (error) {
+        console.log(error);
+        return;
         var errMsg;
         if (error instanceof Response) {
             var body = error.json() || '';
