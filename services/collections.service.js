@@ -11,11 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
-var material_1 = require('@angular/material');
+var ng2_toasty_1 = require('ng2-toasty');
 var CollectionsService = (function () {
-    function CollectionsService(http, snackBar) {
+    function CollectionsService(http, toasty) {
         this.http = http;
-        this.snackBar = snackBar;
+        this.toasty = toasty;
         this.data = {};
     }
     CollectionsService.prototype.handleError = function (error) {
@@ -28,7 +28,7 @@ var CollectionsService = (function () {
         else {
             errMsg = error.message ? error.message : error.toString();
         }
-        this.snackBar.open(errMsg, null, 4000);
+        this.toasty.error(errMsg);
         console.error(errMsg);
         return Observable_1.Observable.throw(errMsg);
     };
@@ -58,7 +58,7 @@ var CollectionsService = (function () {
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, material_1.MdSnackBar])
+        __metadata('design:paramtypes', [http_1.Http, ng2_toasty_1.ToastyService])
     ], CollectionsService);
     return CollectionsService;
 }());

@@ -2,7 +2,8 @@ import { Injectable }    from '@angular/core';
 import { Http }          from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable }    from 'rxjs/Observable';
-import { MdSnackBar }    from '@angular/material';
+//import { MdSnackBar }    from '@angular/material';
+import { ToastyService } from 'ng2-toasty';
 
 
 @Injectable()
@@ -11,7 +12,8 @@ export class CollectionsService {
 	
 	constructor (
 		private http: Http,
-		public snackBar: MdSnackBar
+		//public snackBar: MdSnackBar
+		public toasty: ToastyService
 	) {}
 	
 	handleError( error ) {
@@ -23,7 +25,8 @@ export class CollectionsService {
 		} else {
 		  errMsg = error.message ? error.message : error.toString();
 		}
-		this.snackBar.open(errMsg, null, 4000);
+		this.toasty.error(errMsg);
+		//this.snackBar.open(errMsg, null, 4000);
 		console.error(errMsg);
 		return Observable.throw(errMsg);
 	}
