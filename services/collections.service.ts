@@ -19,6 +19,7 @@ export class CollectionsService {
 	handleError( error ) {
 		console.log(error); 
 		return;
+		/*
 		let errMsg: string;
 		if (error instanceof Response) {
 		  const body = error.json() || '';
@@ -31,6 +32,7 @@ export class CollectionsService {
 		//this.snackBar.open(errMsg, null, 4000);
 		console.error(errMsg);
 		return Observable.throw(errMsg);
+		*/
 	}
 	
 	load( collection, file ) {

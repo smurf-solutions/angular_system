@@ -11,13 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var search_js_1 = require('./search.js');
 var dump_js_1 = require('./dump.js');
+var getValueOfType_js_1 = require('./getValueOfType.js');
 var PipeModules = (function () {
     function PipeModules() {
     }
     PipeModules = __decorate([
         core_1.NgModule({
-            imports: [search_js_1.SearchModule, dump_js_1.DumpModule],
-            exports: [search_js_1.SearchModule, dump_js_1.DumpModule]
+            imports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule],
+            exports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule]
         }), 
         __metadata('design:paramtypes', [])
     ], PipeModules);

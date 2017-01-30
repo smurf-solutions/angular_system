@@ -21,18 +21,6 @@ var CollectionsService = (function () {
     CollectionsService.prototype.handleError = function (error) {
         console.log(error);
         return;
-        var errMsg;
-        if (error instanceof Response) {
-            var body = error.json() || '';
-            var err = body.error || JSON.stringify(body);
-            errMsg = error.status + " - " + (error.statusText || '') + " " + err;
-        }
-        else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        this.toasty.error(errMsg);
-        console.error(errMsg);
-        return Observable_1.Observable.throw(errMsg);
     };
     CollectionsService.prototype.load = function (collection, file) {
         var _this = this;
