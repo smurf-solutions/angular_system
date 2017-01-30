@@ -30,10 +30,11 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+	  'ng2-toasty':                'npm:ng2-toasty/bundles/index.umd.js',
 
       '@sys' :                     'spm:',
-	  '@sys/services':             'spm:services/index.js',
-	  '@sys/not-found':            'spm:not-found/index.js',
+      '@sys/services':             'spm:services/index.js',
+      '@sys/not-found':            'spm:not-found/index.js',
       '@sys/pipes':                'spm:pipes/index.js',
       '@sys/material':             'spm:material/index.js',
     },
