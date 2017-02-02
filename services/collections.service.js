@@ -17,6 +17,7 @@ var CollectionsService = (function () {
         this.http = http;
         this.toasty = toasty;
         this.data = {};
+        this.server = 'http://localhost:3000/';
     }
     CollectionsService.prototype.handleError = function (error) {
         console.log(error);
@@ -26,7 +27,7 @@ var CollectionsService = (function () {
         var _this = this;
         if (!this.data[collection])
             this.data[collection] = {};
-        return this.http.get('collections/' + collection + '/' + file)
+        return this.http.get(this.server + 'collections/' + collection + '/' + file)
             .map(function (res) { return res.json(); })
             .do(function (res) { _this.data[collection][file] = res; })
             .catch(this.handleError);
@@ -44,8 +45,7 @@ var CollectionsService = (function () {
     CollectionsService.prototype.post = function (collection, data, file) {
         if (!file)
             file = 'post.json';
-        var prefix = 'http://localhost:3000/';
-        return this.http.post(prefix + 'collections/' + collection + '/' + file, data);
+        return this.http.post(this.server + 'collections/' + collection + '/' + file, data);
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 

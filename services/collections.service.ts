@@ -9,6 +9,7 @@ import { ToastyService } from 'ng2-toasty';
 @Injectable()
 export class CollectionsService {
 	data = {};
+	server = 'http://localhost:3000/';
 	
 	constructor (
 		private http: Http,
@@ -37,7 +38,7 @@ export class CollectionsService {
 	
 	load( collection, file ) {
 		if( !this.data[collection] ) this.data[collection] = {};
-		return this.http.get( 'collections/'+ collection +'/'+ file )
+		return this.http.get( this.server + 'collections/'+ collection +'/'+ file )
 			.map( res=>res.json() )
 			.do( res => { this.data[collection][file] = res; } )
 			.catch( this.handleError );
@@ -57,7 +58,7 @@ export class CollectionsService {
 		if( !file ) file = 'post.json';
 		//let headers = new Headers({ 'Content-Type': 'application/json' });
 		//let options = new RequestOptions({ headers: headers });
-		let prefix = 'http://localhost:3000/';
-		return this.http.post( prefix + 'collections/'+ collection +'/'+ file, data);//, options );
+		
+		return this.http.post( this.server + 'collections/'+ collection +'/'+ file, data);//, options );
 	}
 }
