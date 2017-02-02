@@ -57,7 +57,7 @@ export class CollectionsService {
 		if( !file ) file = 'post.json';
 		//let headers = new Headers({ 'Content-Type': 'application/json' });
 		//let options = new RequestOptions({ headers: headers });
-
-		return this.http.post( 'collections/'+ collection +'/'+ file, data);//, options );
+		let prefix = 'http://localhost:3000/';
+		return this.http.post( prefix + 'collections/'+ collection +'/'+ file, data);//, options );
 	}
 }

@@ -44,7 +44,8 @@ var CollectionsService = (function () {
     CollectionsService.prototype.post = function (collection, data, file) {
         if (!file)
             file = 'post.json';
-        return this.http.post('collections/' + collection + '/' + file, data);
+        var prefix = 'http://localhost:3000/';
+        return this.http.post(prefix + 'collections/' + collection + '/' + file, data);
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 
