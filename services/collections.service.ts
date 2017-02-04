@@ -9,7 +9,7 @@ import { ToastyService } from 'ng2-toasty';
 @Injectable()
 export class CollectionsService {
 	data = {};
-	server = 'http://localhost:3000/';
+	db   = '//localhost:3000/collections/demo/';
 	
 	constructor (
 		private http: Http,
@@ -36,29 +36,33 @@ export class CollectionsService {
 		*/
 	}
 	
-	load( collection, file ) {
+	private load( db, collection ) {
 		if( !this.data[collection] ) this.data[collection] = {};
-		return this.http.get( this.server + 'collections/'+ collection +'/'+ file )
+		return this.http.get( db + collection )
 			.map( res=>res.json() )
-			.do( res => { this.data[collection][file] = res; } )
+			.do( res => { this.data[collection] = res; } )
 			.catch( this.handleError );
 	}
 	
 	
-	get( collection, file ) {
-		if( !file ) file = "get.json";
-		if( !this.data[collection] || !this.data[collection][file] ) {
-			return this.load( collection, file );
+	get( collection, where ) {
+		if( !this.data[collection] ) { 
+			return this.load( this.db, collection );
 		} else {
-			return Observable.of( this.data[collection][file] );
+			return Observable.of( this.data[collection]); 
 		}
 	}
 	
-	post( collection, data, file ) {
-		if( !file ) file = 'post.json';
+	post( collection, data, where ) {
 		//let headers = new Headers({ 'Content-Type': 'application/json' });
 		//let options = new RequestOptions({ headers: headers });
 		
-		return this.http.post( this.server + 'collections/'+ collection +'/'+ file, data);//, options );
+		return this.http.post( this.db + 'collections/'+ collection , data);//, options );
+	}
+	
+	changeDb( db ) {
+		this.db = db;
+		this.data = {};
+		this.toasty.info({title:'DB', msg:db});
 	}
 }
