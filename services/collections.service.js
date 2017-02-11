@@ -23,14 +23,44 @@ var CollectionsService = (function () {
         console.log(error);
         return;
     };
+    CollectionsService.prototype.handleMessages = function (res) {
+        if (res.success) {
+            this.toasty.success("Записът е успеше");
+        }
+        else if (res.error) {
+            this.toasty.error("Не може да се запише");
+        }
+        if (res.msg) {
+            switch (res.msg.type) {
+                case 'success':
+                    this.toasty.success(res.msg);
+                    break;
+                case 'error':
+                    this.toasty.error(res.msg);
+                    break;
+                case 'warning':
+                    this.toasty.warning(res.msg);
+                    break;
+                case 'wait':
+                    this.toasty.wait(res.msg);
+                    break;
+                default: this.toasty.info(res.msg);
+            }
+        }
+    };
     CollectionsService.prototype.load = function (db, collection) {
         var _this = this;
         if (!this.data[collection])
             this.data[collection] = {};
         return this.http.get(db + collection)
             .map(function (res) { return res.json(); })
-            .do(function (res) { _this.data[collection] = res; })
+            .do(function (res) { _this.data[collection] = res; _this.handleMessages(res); })
             .catch(this.handleError);
+    };
+    CollectionsService.prototype.changeDb = function (db) {
+        this.db = db;
+        this.data = {};
+        this.toasty.info({ title: 'DB', msg: db });
     };
     CollectionsService.prototype.get = function (collection, where) {
         if (!this.data[collection]) {
@@ -41,12 +71,11 @@ var CollectionsService = (function () {
         }
     };
     CollectionsService.prototype.post = function (collection, data, where) {
-        return this.http.post(this.db + 'collections/' + collection, data);
-    };
-    CollectionsService.prototype.changeDb = function (db) {
-        this.db = db;
-        this.data = {};
-        this.toasty.info({ title: 'DB', msg: db });
+        var _this = this;
+        return this.http.post(this.db + collection, data)
+            .map(function (res) { return res.json(); })
+            .do(function (res) { _this.handleMessages(res); })
+            .catch(this.handleError);
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 

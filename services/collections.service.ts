@@ -17,7 +17,9 @@ export class CollectionsService {
 		public toasty: ToastyService
 	) {}
 	
-	handleError( error ) {
+	
+	
+	private handleError( error ) {
 		console.log(error); 
 		return;
 		/*
@@ -35,15 +37,39 @@ export class CollectionsService {
 		return Observable.throw(errMsg);
 		*/
 	}
+
+	private handleMessages( res ) {
+		if( res.success ) {
+			this.toasty.success("Записът е успеше");
+		} else if(res.error) {
+			this.toasty.error("Не може да се запише")
+		}
+		if( res.msg ) {
+			switch(res.msg.type) {
+				case 'success': this.toasty.success(res.msg); break;
+				case 'error'  : this.toasty.error(res.msg); break;
+				case 'warning': this.toasty.warning(res.msg); break;
+				case 'wait'   : this.toasty.wait(res.msg); break;
+				default       : this.toasty.info(res.msg); 
+			}
+		}
+	}
 	
 	private load( db, collection ) {
 		if( !this.data[collection] ) this.data[collection] = {};
 		return this.http.get( db + collection )
 			.map( res=>res.json() )
-			.do( res => { this.data[collection] = res; } )
+			.do( res => { this.data[collection] = res; this.handleMessages(res) } )
 			.catch( this.handleError );
 	}
 	
+	/*************/
+	
+	changeDb( db ) {
+		this.db = db;
+		this.data = {};
+		this.toasty.info({title:'DB', msg:db});
+	}
 	
 	get( collection, where ) {
 		if( !this.data[collection] ) { 
@@ -57,12 +83,11 @@ export class CollectionsService {
 		//let headers = new Headers({ 'Content-Type': 'application/json' });
 		//let options = new RequestOptions({ headers: headers });
 		
-		return this.http.post( this.db + 'collections/'+ collection , data);//, options );
+		return this.http.post( this.db + collection , data) //, options );
+					.map( res=>res.json() )
+					.do( res => {this.handleMessages(res)} )
+					.catch( this.handleError );
 	}
+
 	
-	changeDb( db ) {
-		this.db = db;
-		this.data = {};
-		this.toasty.info({title:'DB', msg:db});
-	}
 }
