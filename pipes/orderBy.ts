@@ -27,6 +27,8 @@ export class OrderByPipe {
 				let aa = a[props[0]][props[1]][props[2]][props[3]][props[4]], bb = b[props[0]][props[1]][props[2]][props[4]];
 			}
 			
+			if( !aa ) aa = '';
+			if( !bb ) bb = '';
 			if((isNaN(parseFloat(aa)) || !isFinite(aa)) || (isNaN(parseFloat(bb)) || !isFinite(bb))) {
 				if(aa.toLowerCase() < bb.toLowerCase()) return -1*sign;
 				if(aa.toLowerCase() > bb.toLowerCase()) return 1*sign;
