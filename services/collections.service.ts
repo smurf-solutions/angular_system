@@ -1,41 +1,32 @@
-import { Injectable }    from '@angular/core';
-import { Http }          from '@angular/http';
+import { Injectable, Inject }      from '@angular/core';
+import { Http }                    from '@angular/http';
+import { Router }                  from '@angular/router';
 import { Headers, RequestOptions } from '@angular/http';
-import { Observable }    from 'rxjs/Observable';
-//import { MdSnackBar }    from '@angular/material';
-import { ToastyService } from 'ng2-toasty';
+import { Observable }              from 'rxjs/Observable';
+
+import { ToastyService }           from 'ng2-toasty';
+
+import { AuthService }             from '@sys/services';
+import { MdDialog }                from '@angular/material';
+import { LoginModalComponent }     from '@sys/modals';
+		
 
 
 @Injectable()
 export class CollectionsService {
 	data = {};
-	db   = '//localhost:3000/collections/demo/';
 	
 	constructor (
 		private http: Http,
-		//public snackBar: MdSnackBar
-		public toasty: ToastyService
-	) {}
-	
-	
+		public toasty: ToastyService,
+		public router: Router,
+		public dialog: MdDialog,
+	) {
+		this.authService = new AuthService( this.dialog, this.router );
+	}
 	
 	private handleError( error ) {
 		console.log(error); 
-		return;
-		/*
-		let errMsg: string;
-		if (error instanceof Response) {
-		  const body = error.json() || '';
-		  const err = body.error || JSON.stringify(body);
-		  errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-		} else {
-		  errMsg = error.message ? error.message : error.toString();
-		}
-		this.toasty.error(errMsg);
-		//this.snackBar.open(errMsg, null, 4000);
-		console.error(errMsg);
-		return Observable.throw(errMsg);
-		*/
 	}
 
 	private handleMessages( res ) {
@@ -53,37 +44,60 @@ export class CollectionsService {
 				default       : this.toasty.info(res.msg); 
 			}
 		}
+		
 	}
-	
-	private load( db, collection ) {
-		if( !this.data[collection] ) this.data[collection] = {};
-		return this.http.get( db + collection )
-			.map( res=>res.json() )
-			.do( res => { this.data[collection] = res; this.handleMessages(res) } )
-			.catch( this.handleError );
+
+	private load( db, collection ): Observable {
+		let options = { headers: {token: this.authService.getToken()} };
+		if( this.data[collection] ) this.data[collection] = null;
+		let errorCatched = false;
+		
+		return new Observable( observer => {
+			this.http.get( db + collection, options ).map( res=>res.json() ) 
+				.catch( err => { if(!errorCatched) { errorCatched = true; this.authAndLoad( db, collection, observer )} } )
+				.subscribe( res => {
+						if( res.access == 'DENIDED' ) {
+							this.authAndLoad(db, collection, observer);
+						} else {
+							this.data[collection] = res;
+							observer.next( res );
+						}
+					}, err => { if(!errorCatched) { this.authAndLoad( db, collection, observer ); errorCatched=true}, ()=>{} )
+		});
+		
+		
 	}
+	private authAndLoad(db,collection,observer){
+			this.authService.loginModal().subscribe( ret => { 
+				if(ret) this.load( this.authService.dbUrl, collection ).subscribe( res => if(observer) observer.next( res ) );
+			});
+		}
 	
 	/*************/
-	
+	/*
 	changeDb( db ) {
-		this.db = db;
-		this.data = {};
+		this.authService.dbUrl = db;
+		this.data  = {};
 		this.toasty.info({title:'DB', msg:db});
+	}*/
+	resetData() {
+		this.authService.loginModal().subscribe( res => {
+			if( res ) {
+				this.data = {};
+			}
+		});
 	}
 	
 	get( collection, where ) {
 		if( !this.data[collection] ) { 
-			return this.load( this.db, collection );
+			return this.load( this.authService.dbUrl, collection );
 		} else {
 			return Observable.of( this.data[collection]); 
 		}
 	}
 	
 	post( collection, data, where ) {
-		//let headers = new Headers({ 'Content-Type': 'application/json' });
-		//let options = new RequestOptions({ headers: headers });
-		
-		return this.http.post( this.db + collection , data) //, options );
+		return this.http.post( this.authService.dbUrl + collection , data) 
 					.map( res=>res.json() )
 					.do( res => {this.handleMessages(res)} )
 					.catch( this.handleError );

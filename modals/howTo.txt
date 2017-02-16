@@ -1,0 +1,28 @@
+import { MdDialog }                from '@angular/material';
+
+import { ...ModalComponent }       from '@sys/modals';
+
+
+@Component({})
+export class Component {
+	constructor(
+		public dialog: MdDialog
+	) {}
+	
+	openDialog() {
+		dialogConfig = { 
+			disableClose: false,
+			width: '600px', 
+			height: '', 
+			position: { top: '', bottom: '', left: '', right: ''}
+		}
+		
+		
+		let dialogRef = this.dialog.open( ...ModalComponent, dialogConfig );
+
+		dialogRef.componentInstance.title   = 'Името на диалога';
+		dialogRef.componentInstance. ...    = invoice. ..data..;
+
+		dialogRef.afterClosed().subscribe( res=> { alert(res} );
+	}
+}

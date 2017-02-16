@@ -37,6 +37,7 @@
       '@sys/not-found':            'spm:not-found/index.js',
       '@sys/pipes':                'spm:pipes/index.js',
       '@sys/material':             'spm:material/index.js',
+	  '@sys/modals':               'spm:modals/index.js',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
