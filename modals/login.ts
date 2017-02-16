@@ -18,18 +18,17 @@ import { FormsModule }                  from '@angular/forms';
 			<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>
 		</div>
 		<md-dialog-content>
-			<!-- <div> <md-select [(ngModel)]="db" autofocus>
-				<md-option selected>localhost/demo</md-option>
-				<md-option> remote </md-option>
-			</md-select> </div> -->
-			<div><md-input [(ngModel)]="db" placeholder="Databes URL" autofocus></md-input></div>
+			<div><md-input [(ngModel)]="db" placeholder="Databes URL" autofocus (keyup.enter)="submitLogin()"></md-input></div>
 				<br>&nbsp;<br>
-			<div> <md-input [(ngModel)]="user" type="text" name="username" placeholder="{{ lableUser }}"></md-input> </div>
-			<div> <md-input [(ngModel)]="pass" type="password" name="password" placeholder="{{ lablePass }}"></md-input> </div>
+			<div> <md-input [(ngModel)]="user" type="text" name="username" placeholder="{{ lableUser }}" (keyup.enter)="submitLogin()"></md-input> </div>
+			<div> <md-input [(ngModel)]="pass" type="password" name="password" placeholder="{{ lablePass }}" (keyup.enter)="submitLogin()"></md-input> </div>
 		</md-dialog-content>
 		<md-dialog-actions> 
 			<button md-raised-button color="{{ color }}" (click)="submitLogin()"> {{ buttonLogin }} </button> 
 			<button md-button md-dialog-close color="warn"> {{ buttonCancel }} </button>
+			<!-- <div style="float:right">
+				<button md-raised-button color="warn">Logout</button>
+			</div> -->
 		</md-dialog-actions>
 	`
 })
@@ -38,7 +37,7 @@ export class LoginModalComponent {
 	lableUser = "Username";
 	lablePass = "Password";
 	buttonLogin = "Login";
-	buttonCancel = "EXIT";
+	buttonCancel = "Cancel";
 	color = "primary";
 	
 	db = "";

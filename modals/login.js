@@ -20,7 +20,7 @@ var LoginModalComponent = (function () {
         this.lableUser = "Username";
         this.lablePass = "Password";
         this.buttonLogin = "Login";
-        this.buttonCancel = "EXIT";
+        this.buttonCancel = "Cancel";
         this.color = "primary";
         this.db = "";
         this.user = "";
@@ -33,7 +33,7 @@ var LoginModalComponent = (function () {
         core_1.Component({
             selector: 'login-form',
             styles: ["\n\t\tmd-dialog-content {height:100%; width:330px}\n\t\tmd-input, md-select { width: 100% }\n\t\tbutton[md-button], button[md-raised-button] {  }\n\t"],
-            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<!-- <div> <md-select [(ngModel)]=\"db\" autofocus>\n\t\t\t\t<md-option selected>localhost/demo</md-option>\n\t\t\t\t<md-option> remote </md-option>\n\t\t\t</md-select> </div> -->\n\t\t\t<div><md-input [(ngModel)]=\"db\" placeholder=\"Databes URL\" autofocus></md-input></div>\n\t\t\t\t<br>&nbsp;<br>\n\t\t\t<div> <md-input [(ngModel)]=\"user\" type=\"text\" name=\"username\" placeholder=\"{{ lableUser }}\"></md-input> </div>\n\t\t\t<div> <md-input [(ngModel)]=\"pass\" type=\"password\" name=\"password\" placeholder=\"{{ lablePass }}\"></md-input> </div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions> \n\t\t\t<button md-raised-button color=\"{{ color }}\" (click)=\"submitLogin()\"> {{ buttonLogin }} </button> \n\t\t\t<button md-button md-dialog-close color=\"warn\"> {{ buttonCancel }} </button>\n\t\t</md-dialog-actions>\n\t"
+            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<div><md-input [(ngModel)]=\"db\" placeholder=\"Databes URL\" autofocus (keyup.enter)=\"submitLogin()\"></md-input></div>\n\t\t\t\t<br>&nbsp;<br>\n\t\t\t<div> <md-input [(ngModel)]=\"user\" type=\"text\" name=\"username\" placeholder=\"{{ lableUser }}\" (keyup.enter)=\"submitLogin()\"></md-input> </div>\n\t\t\t<div> <md-input [(ngModel)]=\"pass\" type=\"password\" name=\"password\" placeholder=\"{{ lablePass }}\" (keyup.enter)=\"submitLogin()\"></md-input> </div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions> \n\t\t\t<button md-raised-button color=\"{{ color }}\" (click)=\"submitLogin()\"> {{ buttonLogin }} </button> \n\t\t\t<button md-button md-dialog-close color=\"warn\"> {{ buttonCancel }} </button>\n\t\t\t<!-- <div style=\"float:right\">\n\t\t\t\t<button md-raised-button color=\"warn\">Logout</button>\n\t\t\t</div> -->\n\t\t</md-dialog-actions>\n\t"
         }), 
         __metadata('design:paramtypes', [material_1.MdDialogRef])
     ], LoginModalComponent);
