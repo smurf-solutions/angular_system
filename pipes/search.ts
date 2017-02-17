@@ -9,7 +9,7 @@ import { NgModule, Pipe } from '@angular/core';
 })
 export class SearchPipe {
     
-    search( item, term ) {
+    private search( item, term ): Boolean {
         let exists = false;
         let _this = this;
         
@@ -24,7 +24,7 @@ export class SearchPipe {
         return exists;
     }
 
-    transform( items: object[], term: string, keys: array, info: object ) {
+    transform( items: object[], term: string, keys: array, info: object ): Array {
 		if( !items || !term )
             return this.dump(items, items, info);
 		

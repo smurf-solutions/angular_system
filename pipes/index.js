@@ -14,13 +14,14 @@ var dump_js_1 = require('./dump.js');
 var getValueOfType_js_1 = require('./getValueOfType.js');
 var orderBy_js_1 = require('./orderBy.js');
 var highlight_js_1 = require('./highlight.js');
+var translate_js_1 = require('./translate.js');
 var PipeModules = (function () {
     function PipeModules() {
     }
     PipeModules = __decorate([
         core_1.NgModule({
-            imports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule, orderBy_js_1.OrderByModule, highlight_js_1.HighlightModule],
-            exports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule, orderBy_js_1.OrderByModule, highlight_js_1.HighlightModule]
+            imports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule, orderBy_js_1.OrderByModule, highlight_js_1.HighlightModule, translate_js_1.TranslateModule],
+            exports: [search_js_1.SearchModule, dump_js_1.DumpModule, getValueOfType_js_1.getValueOfTypeModule, orderBy_js_1.OrderByModule, highlight_js_1.HighlightModule, translate_js_1.TranslateModule]
         }), 
         __metadata('design:paramtypes', [])
     ], PipeModules);

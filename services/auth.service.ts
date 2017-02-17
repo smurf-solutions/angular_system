@@ -11,7 +11,7 @@ import { LoginModalComponent }    from '@sys/modals';
 })
 @Injectable()
 export class AuthService {
-	dbUrl = "//localhost:3000/collections/demo/";
+	dbUrl:String = "//localhost:3000/collections/demo/";
 	user: String = "siso1"; 
 	pass: String = "1234";
 	

@@ -12,18 +12,21 @@ var core_1 = require('@angular/core');
 var sys_service_js_1 = require('./sys.service.js');
 var auth_service_js_1 = require('./auth.service.js');
 var collections_service_js_1 = require('./collections.service.js');
+var language_service_js_1 = require('./language.service.js');
 var SysServicesModule = (function () {
-    function SysServicesModule() {
+    function SysServicesModule(languageService) {
+        languageService.getDictionary();
     }
     SysServicesModule = __decorate([
         core_1.NgModule({
             providers: [
                 auth_service_js_1.AuthService,
                 sys_service_js_1.SysService,
-                collections_service_js_1.CollectionsService
+                collections_service_js_1.CollectionsService,
+                language_service_js_1.LanguageService
             ]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [language_service_js_1.LanguageService])
     ], SysServicesModule);
     return SysServicesModule;
 }());
