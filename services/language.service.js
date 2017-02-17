@@ -22,7 +22,6 @@ var LanguageService = (function () {
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
             _this.dictionary = res;
-            console.log(_this.dictionary);
         });
     };
     LanguageService.prototype.translate = function (word, scope) {

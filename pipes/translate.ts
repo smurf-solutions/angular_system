@@ -1,11 +1,6 @@
-﻿import { NgModule, Pipe }      from '@angular/core';
+﻿import { NgModule, Pipe }   from '@angular/core';
+import { LanguageService }  from '@sys/services';
 
-//import { Dictionary }          from 'i18n/bg.js';
-import { LanguageService }   from '@sys/services';
-
-let Dictionary = {
-	'Users':'Потребители'
-}
 
 @Pipe({ 
 	name:'translate' 
@@ -22,7 +17,6 @@ export class TranslatePipe {
 
 
 @NgModule({
-	//providers: [ LanguageService ],
 	declarations: [ TranslatePipe ],
 	exports: [ TranslatePipe ]
 })

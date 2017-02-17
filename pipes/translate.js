@@ -10,9 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var services_1 = require('@sys/services');
-var Dictionary = {
-    'Users': 'Потребители'
-};
 var TranslatePipe = (function () {
     function TranslatePipe(languageService) {
         this.languageService = languageService;

@@ -17,7 +17,6 @@ export class LanguageService {
 			.map( res => res.json() )
 			.subscribe( res => {
 				this.dictionary = res;
-				console.log( this.dictionary )
 			});
 	}
 	
