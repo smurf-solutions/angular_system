@@ -3,7 +3,8 @@ import { LanguageService }  from '@sys/services';
 
 
 @Pipe({ 
-	name:'translate' 
+	name:'translate',
+	pure: false
 })
 export class TranslatePipe {
 	constructor(

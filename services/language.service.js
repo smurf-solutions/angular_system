@@ -18,11 +18,12 @@ var LanguageService = (function () {
     }
     LanguageService.prototype.getDictionary = function () {
         var _this = this;
-        this.http.get("i18n/" + this.lang + ".json")
-            .map(function (res) { return res.json(); })
-            .subscribe(function (res) {
-            _this.dictionary = res;
-        });
+        if (!this.dictionary)
+            this.http.get("i18n/" + this.lang + ".json")
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                _this.dictionary = res;
+            });
     };
     LanguageService.prototype.translate = function (word, scope) {
         if (scope === void 0) { scope = "�"; }

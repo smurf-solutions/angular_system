@@ -20,7 +20,8 @@ var TranslatePipe = (function () {
     };
     TranslatePipe = __decorate([
         core_1.Pipe({
-            name: 'translate'
+            name: 'translate',
+            pure: false
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof services_1.LanguageService !== 'undefined' && services_1.LanguageService) === 'function' && _a) || Object])
     ], TranslatePipe);

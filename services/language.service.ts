@@ -13,6 +13,7 @@ export class LanguageService {
 	}
 	
 	getDictionary() {
+		if( !this.dictionary )
 		this.http.get( "i18n/"+this.lang+".json" )
 			.map( res => res.json() )
 			.subscribe( res => {
@@ -26,6 +27,5 @@ export class LanguageService {
 		} else {
 			return word;
 		}
-	}
-	
+	}	
 }

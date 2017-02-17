@@ -14,8 +14,4 @@ import { LanguageService }    from './language.service.js';
 		LanguageService
 	]
 })
-export class SysServicesModule {
-	constructor( languageService: LanguageService ) {
-		languageService.getDictionary();
-	}
-}
+export class SysServicesModule {}

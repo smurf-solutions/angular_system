@@ -3,9 +3,12 @@ import { CommonModule }            from '@angular/common';
 import { MaterialModule }          from '@angular/material';
 import { FlexLayoutModule }        from '@angular/flex-layout';
 import { FormsModule }             from '@angular/forms';
+//import { ToastyModule }            from 'ng2-toasty';
 
 import { PipeModules }             from '@sys/pipes';
 import { AppMaterialModules }      from '@sys/material';
+
+//import { Router }  from '@angular/router';
 
 @NgModule({
 	imports: [ 
@@ -13,7 +16,9 @@ import { AppMaterialModules }      from '@sys/material';
 		MaterialModule,
 		MaterialModule.forRoot(),
 		FlexLayoutModule,
-		FormsModule,		
+		FormsModule,
+//		ToastyModule,
+//		ToastyModule.forRoot(),
 		PipeModules,
 		AppMaterialModules
 	],
@@ -22,6 +27,7 @@ import { AppMaterialModules }      from '@sys/material';
 		MaterialModule,
 		FlexLayoutModule,
 		FormsModule,
+//		ToastyModule,
 		PipeModules,
 		AppMaterialModules
 	]
