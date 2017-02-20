@@ -16,9 +16,12 @@ var AuthService = (function () {
     function AuthService(dialog, router) {
         this.dialog = dialog;
         this.router = router;
-        this.dbUrl = "//localhost:3000/collections/demo/";
-        this.user = "siso1";
-        this.pass = "1234";
+        var first = Object.values(JSON.parse(localStorage.loginDatas || '{}')).shift();
+        if (first) {
+            this.dbUrl = first.db;
+            this.user = first.user;
+            this.pass = first.pass;
+        }
     }
     AuthService.prototype.getToken = function () {
         var token = [this.user, this.pass];
@@ -37,9 +40,12 @@ var AuthService = (function () {
                 _this.dbUrl = res.db;
             }
             else {
-                _this.router.navigateByUrl('/Home');
+                _this.routeToHome();
             }
         });
+    };
+    AuthService.prototype.routeToHome = function () {
+        this.router.navigateByUrl('/Home');
     };
     AuthService = __decorate([
         core_1.Component({

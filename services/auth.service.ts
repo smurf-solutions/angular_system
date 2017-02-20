@@ -11,14 +11,21 @@ import { LoginModalComponent }    from '@sys/modals';
 })
 @Injectable()
 export class AuthService {
-	dbUrl:String = "//localhost:3000/collections/demo/";
-	user: String = "siso1"; 
-	pass: String = "1234";
+	dbUrl:String;// = "//localhost:3000/collections/demo/";
+	user: String; 
+	pass: String;
 	
 	constructor(
 		public dialog: MdDialog,
 		public router: Router
-	) {}
+	) {
+		let first = Object.values( JSON.parse( localStorage.loginDatas || '{}' ) ).shift();
+		if( first ) {
+			this.dbUrl = first.db;
+			this.user  = first.user;
+			this.pass  = first.pass;
+		}
+	}
 	
 	getToken(): String {
 		var token = [this.user, this.pass ];
@@ -37,11 +44,14 @@ export class AuthService {
 					this.user  = res.user;
 					this.pass  = res.pass;
 					this.dbUrl = res.db;
+					// this.events.loginChanged.emit(  );
 				} else {
-					this.router.navigateByUrl('/Home');
+					this.routeToHome();
 				}
 			} )
 	}
-
+	routeToHome(){
+		this.router.navigateByUrl('/Home');
+	}
 }
 

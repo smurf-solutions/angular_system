@@ -12,16 +12,20 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
 var Observable_1 = require('rxjs/Observable');
+var common_1 = require('@angular/common');
 var ng2_toasty_1 = require('ng2-toasty');
 var services_1 = require('@sys/services');
 var material_1 = require('@angular/material');
 var CollectionsService = (function () {
-    function CollectionsService(http, toasty, router, dialog) {
+    function CollectionsService(http, toasty, router, dialog, location, route) {
         this.http = http;
         this.toasty = toasty;
         this.router = router;
         this.dialog = dialog;
+        this.location = location;
+        this.route = route;
         this.data = {};
+        this.loginChangedEmitter = new core_1.EventEmitter();
         this.authService = new services_1.AuthService(this.dialog, this.router);
     }
     CollectionsService.prototype.handleError = function (error) {
@@ -91,6 +95,7 @@ var CollectionsService = (function () {
         this.authService.loginModal().subscribe(function (res) {
             if (res) {
                 _this.data = {};
+                _this.loginChangedEmitter.emit();
             }
         });
     };
@@ -111,7 +116,7 @@ var CollectionsService = (function () {
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, ng2_toasty_1.ToastyService, router_1.Router, material_1.MdDialog])
+        __metadata('design:paramtypes', [http_1.Http, ng2_toasty_1.ToastyService, router_1.Router, material_1.MdDialog, common_1.Location, router_1.ActivatedRoute])
     ], CollectionsService);
     return CollectionsService;
 }());

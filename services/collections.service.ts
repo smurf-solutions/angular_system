@@ -1,8 +1,9 @@
-import { Injectable, Inject }      from '@angular/core';
+import { Injectable, Inject, EventEmitter }      from '@angular/core';
 import { Http }                    from '@angular/http';
-import { Router }                  from '@angular/router';
+import { Router,ActivatedRoute }                  from '@angular/router';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable }              from 'rxjs/Observable';
+import {Location} from '@angular/common'
 
 import { ToastyService }           from 'ng2-toasty';
 
@@ -15,12 +16,15 @@ import { LoginModalComponent }     from '@sys/modals';
 @Injectable()
 export class CollectionsService {
 	data = {};
+	loginChangedEmitter = new EventEmitter();
 	
 	constructor (
 		private http: Http,
 		public toasty: ToastyService,
 		public router: Router,
 		public dialog: MdDialog,
+		private location: Location,
+		private route: ActivatedRoute
 	) {
 		this.authService = new AuthService( this.dialog, this.router );
 	}
@@ -64,8 +68,6 @@ export class CollectionsService {
 						}
 					}, err => { if(!errorCatched) { this.authAndLoad( db, collection, observer ); errorCatched=true}, ()=>{} )
 		});
-		
-		
 	}
 	private authAndLoad(db,collection,observer){
 			this.authService.loginModal().subscribe( ret => { 
@@ -80,15 +82,29 @@ export class CollectionsService {
 		this.data  = {};
 		this.toasty.info({title:'DB', msg:db});
 	}*/
+	//onLoginChanged() { return this.loginChanged; }
 	resetData() {
+		
 		this.authService.loginModal().subscribe( res => {
 			if( res ) {
 				this.data = {};
+				this.loginChangedEmitter.emit();
+				
+				//console.log( this.route );
+				//this.authService.routeToHome();
+				//console.log( this.router.url )
+				//let current = this.router.url;
+				//this.router.navigateByUrl( '/' );
+				//this.router.navigateByUrl( current );
+				//this.location.back();
+				//window.location.reload();
+				
 			}
 		});
 	}
 	
 	get( collection, where ) {
+		//console.log( collection)
 		if( !this.data[collection] ) { 
 			return this.load( this.authService.dbUrl, collection );
 		} else {

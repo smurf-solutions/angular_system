@@ -1,7 +1,6 @@
 ﻿import { NgModule, Pipe }   from '@angular/core';
 import { LanguageService }  from '@sys/services';
 
-
 @Pipe({ 
 	name:'translate',
 	pure: false

@@ -12,3 +12,4 @@ import { TranslateModule }      from './translate.js';
 	exports: [ SearchModule, DumpModule, getValueOfTypeModule, OrderByModule, HighlightModule, TranslateModule ]
 })
 export class PipeModules {}
+
