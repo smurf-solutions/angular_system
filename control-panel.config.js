@@ -8,12 +8,11 @@
       // paths serve as alias
       'npm:': 'https://smurf-solutions.github.io/node_modules/',
       'spm:': 'https://smurf-solutions.github.io/angular_system/',
-      'app:': './app/'
     },
     // map tells the System loader where to look for things
     map: {
       // our app is within the app folder
-      app: 'app',
+      app: 'https://smurf-solutions.github.io/control_panel/app',
 
       // angular bundles
       '@angular/core':             'npm:@angular/core/bundles/core.umd.js',
@@ -46,7 +45,7 @@
         defaultExtension: 'js'
       },
       app: {
-        main: './main.js',
+        main: 'main.js',
         defaultExtension: 'js'
       },
       rxjs: {
