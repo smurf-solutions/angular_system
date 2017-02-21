@@ -21,31 +21,43 @@ import { PipeModules }                  from '@sys/pipes';
 		</div>
 		<md-dialog-content>
 				<div fxLayout="row">
-					<md-input fxFlex [(ngModel)]="db" placeholder="{{'Database'|translate}} URL" 
-						autofocus autocomplete="off" 
-						(keyup.enter)="submitLogin()"></md-input>
-					<div>
-						<button md-icon-button [mdMenuTriggerFor]="menu_saved_dbs"><md-icon>arrow_drop_down</md-icon></button>
-						<md-menu #menu_saved_dbs="mdMenu" x-position="before">
-							<button md-button style="width:100%;text-align:left;margin:0.5em 0;" 
-								*ngFor="let d of saved_dbs"
-								(click)="db = d.db; user = d.user; pass = d.pass; remember=true"
-							>
-								<div>{{ d.user }} <br> <i style="font-size:80%">{{ d.db }}</i>  </div>
-							</button>
-						</md-menu>
-					</div>
+					<md-input-container style="width:100%">
+						<input mdInput [(ngModel)]="db" placeholder="{{'Database'|translate}} URL" 
+							autofocus autocomplete="off" (keyup.enter)="submitLogin()">
+					
+						<div mdSuffix>
+							<button md-icon-button [mdMenuTriggerFor]="menu_saved_dbs"><md-icon>arrow_drop_down</md-icon></button>
+							<md-menu #menu_saved_dbs="mdMenu" x-position="before">
+								<button md-button style="width:100%;text-align:left;margin:0.5em 0;" 
+									*ngFor="let d of saved_dbs"
+									(click)="db = d.db; user = d.user; pass = d.pass; remember=true"
+								>
+									<div>{{ d.user }} <br> <i style="font-size:80%">{{ d.db }}</i>  </div>
+								</button>
+							</md-menu>
+						</div>
+					</md-input-container>
 				</div>
 				<br>&nbsp;<br>
-			<div><md-input [(ngModel)]="user" type="text" name="username" placeholder="{{ lableUser | translate }}" 
-				autocomplete="off" (keyup.enter)="submitLogin()"></md-input> </div>
-			<div> <md-input [(ngModel)]="pass" type="password" name="password" placeholder="{{ lablePass | translate }}" 
-				autocomplete="off" (keyup.enter)="submitLogin()"></md-input> </div>
+			<div>
+				<md-input-container style="width:100%">
+					<input mdInput [(ngModel)]="user" type="text" name="username" placeholder="{{ lableUser | translate }}" 
+						autocomplete="off" (keyup.enter)="submitLogin()"> 
+				</md-input-container>
+			</div>
+			<div> 
+				<md-input-container style="width:100%">
+					<input mdInput [(ngModel)]="pass" type="password" name="password" placeholder="{{ lablePass | translate }}" 
+						autocomplete="off" (keyup.enter)="submitLogin()"> 
+				</md-input-container>
+			</div>
+			
 		</md-dialog-content>
-		<md-dialog-actions> 
-			<button md-raised-button color="{{ color }}" (click)="submitLogin()"> {{ buttonLogin | translate }} </button> 
-			<!-- <button md-button md-dialog-close> {{ buttonCancel | translate }} </button> -->
-			<div style="float:right">
+		<md-dialog-actions flexLayout="row">
+			<div fxFlex>
+				<button md-raised-button color="{{ color }}" (click)="submitLogin()"> {{ buttonLogin | translate }} </button> 
+			</div>
+			<div>
 				<md-checkbox [(ngModel)]="remember"> {{'Remember'|translate }} </md-checkbox>
 			</div>
 		</md-dialog-actions>

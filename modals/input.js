@@ -30,7 +30,7 @@ var InputModalComponent = (function () {
                 "md-input { width: 100% }",
                 "md-dialog-actions { text-align: right }",
             ],
-            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<md-input #inputBox [(ngModel)]=\"value\" placeholder=\"{{ placeholder }}\" autofocus></md-input>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions> \n\t\t\t<button md-button md-dialog-close> {{ buttonCancel }} </button>\n\t\t\t<button md-raised-button [color]=\"color\" (click)=\"dialogRef.close( inputBox.value )\"> {{ buttonOk }} </button> \n\t\t</md-dialog-actions>\n\t"
+            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<md-input-container>\n\t\t\t\t<input mdInput #inputBox [(ngModel)]=\"value\" placeholder=\"{{ placeholder }}\" autofocus>\n\t\t\t</md-input-container>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions> \n\t\t\t<button md-button md-dialog-close> {{ buttonCancel }} </button>\n\t\t\t<button md-raised-button [color]=\"color\" (click)=\"dialogRef.close( inputBox.value )\"> {{ buttonOk }} </button> \n\t\t</md-dialog-actions>\n\t"
         }), 
         __metadata('design:paramtypes', [material_1.MdDialogRef])
     ], InputModalComponent);

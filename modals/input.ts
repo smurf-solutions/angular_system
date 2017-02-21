@@ -17,7 +17,9 @@ import { FormsModule }                   from '@angular/forms';
 			<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>
 		</div>
 		<md-dialog-content>
-			<md-input #inputBox [(ngModel)]="value" placeholder="{{ placeholder }}" autofocus></md-input>
+			<md-input-container>
+				<input mdInput #inputBox [(ngModel)]="value" placeholder="{{ placeholder }}" autofocus>
+			</md-input-container>
 		</md-dialog-content>
 		<md-dialog-actions> 
 			<button md-button md-dialog-close> {{ buttonCancel }} </button>
