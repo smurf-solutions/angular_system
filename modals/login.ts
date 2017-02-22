@@ -5,6 +5,7 @@ import { FlexLayoutModule }             from '@angular/flex-layout';
 import { FormsModule }                  from '@angular/forms';
 
 import { PipeModules }                  from '@sys/pipes';
+import { AuthService }                  from '@sys/services';
 
 
 @Component({
@@ -21,22 +22,21 @@ import { PipeModules }                  from '@sys/pipes';
 		</div>
 		<md-dialog-content>
 				<div fxLayout="row">
-					<md-input-container style="width:100%">
+					<md-input-container fxFlex>
 						<input mdInput [(ngModel)]="db" placeholder="{{'Database'|translate}} URL" 
 							autofocus autocomplete="off" (keyup.enter)="submitLogin()">
-					
-						<div mdSuffix>
-							<button md-icon-button [mdMenuTriggerFor]="menu_saved_dbs"><md-icon>arrow_drop_down</md-icon></button>
-							<md-menu #menu_saved_dbs="mdMenu" x-position="before">
-								<button md-button style="width:100%;text-align:left;margin:0.5em 0;" 
-									*ngFor="let d of saved_dbs"
-									(click)="db = d.db; user = d.user; pass = d.pass; remember=true"
-								>
-									<div>{{ d.user }} <br> <i style="font-size:80%">{{ d.db }}</i>  </div>
-								</button>
-							</md-menu>
-						</div>
 					</md-input-container>
+					<div>
+						<button md-icon-button [mdMenuTriggerFor]="menu_saved_dbs"><md-icon>arrow_drop_down</md-icon></button>
+						<md-menu #menu_saved_dbs="mdMenu" x-position="before">
+							<button md-button style="width:100%;text-align:left;margin:0.5em 0;" 
+								*ngFor="let d of saved_dbs"
+								(click)="db = d.db; user = d.user; pass = d.pass; remember=true"
+							>
+								<div>{{ d.user }} <br> <i style="font-size:80%">{{ d.db }}</i>  </div>
+							</button>
+						</md-menu>
+					</div>
 				</div>
 				<br>&nbsp;<br>
 			<div>
@@ -79,7 +79,8 @@ export class LoginModalComponent {
 	saved_dbs = [];
 	
 	constructor(
-		public dialogRef: MdDialogRef
+		public dialogRef: MdDialogRef,
+		public auth: AuthService
 	) {}	
 	
 	ngAfterViewInit() {
@@ -91,6 +92,10 @@ export class LoginModalComponent {
 	}
 	
 	submitLogin() {
+		this.auth.dbUrl = this.db;
+		this.auth.user = this.user;
+		this.auth.pass = this.pass;
+		
 		if(this.remember) this.save(); else this.remove();
 		this.dialogRef.close({ db: this.db, user: this.user, pass: this.pass });
 	}
@@ -99,7 +104,7 @@ export class LoginModalComponent {
 	private save(){
 		let data = this.load();
 		let key = this.user+this.db;
-		data[ key ] = {db:this.db,user:this.user,pass:this.pass}
+		data[ key ] = {db:this.db,user:this.user,pass: this.pass}
 		localStorage.setItem( 'loginDatas', JSON.stringify( data ) );
 	}
 	private remove() {
@@ -110,7 +115,24 @@ export class LoginModalComponent {
 	}
 	private load() {
 		let data = localStorage.loginDatas || '{}';
-		return JSON.parse( data );
+		data = JSON.parse( data )
+		
+		//console.log( data )
+			/*
+		for( var k in data) {
+			data[k].pass = this.atou( data[k].pass );
+		} 
+		console.log( data )
+		/**/
+		return data;
+	}
+	
+	// base64 encoded/decode ascii to ucs-2 string
+	private utoa(str) { // encode
+		return window.btoa(unescape(encodeURIComponent(str)));
+	}
+	private atou(str) { // decode
+		return decodeURIComponent(escape(window.atob(str)));
 	}
 }
 

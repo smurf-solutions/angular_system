@@ -48,9 +48,6 @@ var AuthService = (function () {
         this.router.navigateByUrl('/Home');
     };
     AuthService = __decorate([
-        core_1.Component({
-            providers: [router_1.Router]
-        }),
         core_1.Injectable(), 
         __metadata('design:paramtypes', [material_1.MdDialog, router_1.Router])
     ], AuthService);

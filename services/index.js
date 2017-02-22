@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var auth_service_js_1 = require('./auth.service.js');
+exports.AuthService = auth_service_js_1.AuthService;
 var sys_service_js_1 = require('./sys.service.js');
 exports.SysService = sys_service_js_1.SysService;
 var collections_service_js_1 = require('./collections.service.js');
 exports.CollectionsService = collections_service_js_1.CollectionsService;
-var auth_service_js_1 = require('./auth.service.js');
-exports.AuthService = auth_service_js_1.AuthService;
 var language_service_js_1 = require('./language.service.js');
 exports.LanguageService = language_service_js_1.LanguageService;
 var events_service_js_1 = require('./events.service.js');
@@ -28,12 +28,11 @@ var SysServicesModule = (function () {
     SysServicesModule = __decorate([
         core_1.NgModule({
             providers: [
-                services_1.AuthService,
                 services_1.SysService,
                 services_1.CollectionsService,
                 services_1.LanguageService,
                 services_1.EventsService,
-                services_1.ToastService
+                services_1.ToastService,
             ]
         }), 
         __metadata('design:paramtypes', [])

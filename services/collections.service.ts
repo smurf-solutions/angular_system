@@ -1,15 +1,15 @@
-import { Injectable, Inject, EventEmitter }      from '@angular/core';
-import { Http }                    from '@angular/http';
+import { Injectable,Inject, EventEmitter } from '@angular/core';
+import { Http }                     from '@angular/http';
 import { Router,ActivatedRoute }                  from '@angular/router';
-import { Headers, RequestOptions } from '@angular/http';
-import { Observable }              from 'rxjs/Observable';
-import {Location} from '@angular/common'
+import { Headers, RequestOptions }  from '@angular/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { ToastyService }           from 'ng2-toasty';
+import { ToastyService }            from 'ng2-toasty';
 
-import { AuthService }             from '@sys/services';
-import { MdDialog }                from '@angular/material';
-import { LoginModalComponent }     from '@sys/modals';
+import { AuthService }              from '@sys/services';
+//import { SvetlioService }           from '@sys/services';
+//import { MdDialog }                 from '@angular/material';
+//import { LoginModalComponent }      from '@sys/modals';
 		
 
 
@@ -19,14 +19,15 @@ export class CollectionsService {
 	loginChangedEmitter = new EventEmitter();
 	
 	constructor (
+	   private auth: AuthService,
+	   //@Inject(SvetlioService) smk: SvetlioService,
 		private http: Http,
 		public toasty: ToastyService,
-		public router: Router,
-		public dialog: MdDialog,
-		private location: Location,
-		private route: ActivatedRoute
+		//public router: Router,
+		//public dialog: MdDialog,
+		//private route: ActivatedRoute
 	) {
-		this.authService = new AuthService( this.dialog, this.router );
+		//this.auth = new auth();// this.dialog, this.router );
 	}
 	
 	private handleError( error ) {
@@ -52,8 +53,20 @@ export class CollectionsService {
 	}
 
 	private load( db, collection ): Observable {
-		let options = { headers: {token: this.authService.getToken()} };
+		let options = { headers: {token: this.auth.getToken()} };
+		
+		return this.http.get( db + collection, options ).map( res=>res.json() )
+			.catch( err => this.toasty.error('Login error') )
+			.do( res => {
+					if( res.access && res.access == 'DENIDED' ) {
+							this.toasty.error('Access DENIDED');
+						} 
+			}, err => this.toasty.error('Login error') )
+		
+		////////////////////////////////
+		/*
 		if( this.data[collection] ) this.data[collection] = null;
+		
 		let errorCatched = false;
 		
 		return new Observable( observer => {
@@ -68,52 +81,47 @@ export class CollectionsService {
 						}
 					}, err => { if(!errorCatched) { this.authAndLoad( db, collection, observer ); errorCatched=true}, ()=>{} )
 		});
+		*/
 	}
+	/*
 	private authAndLoad(db,collection,observer){
-			this.authService.loginModal().subscribe( ret => { 
-				if(ret) this.load( this.authService.dbUrl, collection ).subscribe( res => if(observer) observer.next( res ) );
+			this.auth.loginModal().subscribe( ret => { 
+				if(ret) this.load( this.auth.dbUrl, collection ).subscribe( res => if(observer) observer.next( res ) );
 			});
 		}
-	
+	*/
 	/*************/
 	/*
 	changeDb( db ) {
-		this.authService.dbUrl = db;
+		this.auth.dbUrl = db;
 		this.data  = {};
 		this.toasty.info({title:'DB', msg:db});
 	}*/
 	//onLoginChanged() { return this.loginChanged; }
+	/*
 	resetData() {
-		
-		this.authService.loginModal().subscribe( res => {
+		this.auth.loginModal().subscribe( res => {
 			if( res ) {
 				this.data = {};
 				this.loginChangedEmitter.emit();
-				
-				//console.log( this.route );
-				//this.authService.routeToHome();
-				//console.log( this.router.url )
-				//let current = this.router.url;
-				//this.router.navigateByUrl( '/' );
-				//this.router.navigateByUrl( current );
-				//this.location.back();
-				//window.location.reload();
-				
 			}
 		});
 	}
+	*/
 	
 	get( collection, where ) {
 		//console.log( collection)
 		if( !this.data[collection] ) { 
-			return this.load( this.authService.dbUrl, collection );
+			console.log( this.auth.dbUrl );
+			//return Observable.of( {data:[]} );
+			return this.load( this.auth.dbUrl, collection );
 		} else {
 			return Observable.of( this.data[collection]); 
 		}
 	}
 	
 	post( collection, data, where ) {
-		return this.http.post( this.authService.dbUrl + collection , data) 
+		return this.http.post( this.auth.dbUrl + collection , data) 
 					.map( res=>res.json() )
 					.do( res => {this.handleMessages(res)} )
 					.catch( this.handleError );

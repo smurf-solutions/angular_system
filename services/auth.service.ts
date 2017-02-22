@@ -1,4 +1,4 @@
-﻿import { Injectable, Component }  from '@angular/core';
+﻿import { Injectable }             from '@angular/core';
 import { MdDialog }               from '@angular/material';
 import { Router }                 from '@angular/router';
 import { Observable }             from 'rxjs/Observable';
@@ -6,9 +6,6 @@ import { Observable }             from 'rxjs/Observable';
 import { LoginModalComponent }    from '@sys/modals';
 
 
-@Component({
-	providers: [ Router ]
-})
 @Injectable()
 export class AuthService {
 	dbUrl:String;// = "//localhost:3000/collections/demo/";
@@ -17,7 +14,7 @@ export class AuthService {
 	
 	constructor(
 		public dialog: MdDialog,
-		public router: Router
+		public router: Router,
 	) {
 		let first = Object.values( JSON.parse( localStorage.loginDatas || '{}' ) ).shift();
 		if( first ) {
