@@ -26,6 +26,7 @@ import { AuthService }                  from '@sys/services';
 						<input mdInput [(ngModel)]="db" placeholder="{{'Database'|translate}} URL" 
 							autofocus autocomplete="off" (keyup.enter)="submitLogin()">
 					</md-input-container>
+					<!--
 					<div>
 						<button md-icon-button [mdMenuTriggerFor]="menu_saved_dbs"><md-icon>arrow_drop_down</md-icon></button>
 						<md-menu #menu_saved_dbs="mdMenu" x-position="before">
@@ -37,6 +38,7 @@ import { AuthService }                  from '@sys/services';
 							</button>
 						</md-menu>
 					</div>
+					-->
 				</div>
 				<br>&nbsp;<br>
 			<div>
@@ -58,19 +60,20 @@ import { AuthService }                  from '@sys/services';
 				<button md-raised-button color="{{ color }}" (click)="submitLogin()"> {{ buttonLogin | translate }} </button> 
 			</div>
 			<div>
-				<md-checkbox [(ngModel)]="remember"> {{'Remember'|translate }} </md-checkbox>
+				<button md-button color="warning" (click)="resetLogin()"> {{ buttonReset | translate }}<md-icon class="right">delete_forever</md-icon></button>
+				<!-- <md-checkbox [(ngModel)]="remember"> {{'Remember'|translate }} </md-checkbox> -->
 			</div>
 		</md-dialog-actions>
 	`
 })
 export class LoginModalComponent {
-	title:        String  = "Login"
+	title:        String  = "Access"
 	lableUser:    String  = "Username";
 	lablePass:    String  = "Password";
-	buttonLogin:  String  = "Login";
-	buttonCancel: String  = "Cancel";
+	buttonLogin:  String  = "Save";
+	buttonReset:  String  = "Delete";
 	color:        String  = "primary";
-	remember:     Boolean = false;
+	//remember:     Boolean = false;
 	
 	db: String = "";
 	user: String = "";
@@ -83,24 +86,30 @@ export class LoginModalComponent {
 		public auth: AuthService
 	) {}	
 	
-	ngAfterViewInit() {
+	/* ngAfterViewInit() {
 		let data = this.load();
 		this.saved_dbs = Object.values( data );
 		if( data[ this.user+this.db ] ) {
 			this.remember = true;
 		} 
-	}
+	}*/
 	
 	submitLogin() {
 		this.auth.dbUrl = this.db;
 		this.auth.user = this.user;
 		this.auth.pass = this.pass;
 		
-		if(this.remember) this.save(); else this.remove();
 		this.dialogRef.close({ db: this.db, user: this.user, pass: this.pass });
 	}
+	resetLogin() {
+		this.db = ''
+		this.user = ''
+		this.pass = ''
+		
+		this.submitLogin();
+	}
 	
-	
+	/*
 	private save(){
 		let data = this.load();
 		let key = this.user+this.db;
@@ -117,13 +126,6 @@ export class LoginModalComponent {
 		let data = localStorage.loginDatas || '{}';
 		data = JSON.parse( data )
 		
-		//console.log( data )
-			/*
-		for( var k in data) {
-			data[k].pass = this.atou( data[k].pass );
-		} 
-		console.log( data )
-		/**/
 		return data;
 	}
 	
@@ -133,7 +135,7 @@ export class LoginModalComponent {
 	}
 	private atou(str) { // decode
 		return decodeURIComponent(escape(window.atob(str)));
-	}
+	}*/
 }
 
 

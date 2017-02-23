@@ -8,35 +8,53 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var events_service_js_1 = require('./events.service.js');
+exports.EventsService = events_service_js_1.EventsService;
+var language_service_js_1 = require('./language.service.js');
+exports.LanguageService = language_service_js_1.LanguageService;
 var auth_service_js_1 = require('./auth.service.js');
 exports.AuthService = auth_service_js_1.AuthService;
 var sys_service_js_1 = require('./sys.service.js');
 exports.SysService = sys_service_js_1.SysService;
 var collections_service_js_1 = require('./collections.service.js');
 exports.CollectionsService = collections_service_js_1.CollectionsService;
-var language_service_js_1 = require('./language.service.js');
-exports.LanguageService = language_service_js_1.LanguageService;
-var events_service_js_1 = require('./events.service.js');
-exports.EventsService = events_service_js_1.EventsService;
-var toast_service_js_1 = require('./toast.service.js');
-exports.ToastService = toast_service_js_1.ToastService;
 var core_1 = require('@angular/core');
 var services_1 = require('@sys/services');
-var SysServicesModule = (function () {
-    function SysServicesModule() {
+var SysServicesModule_0 = (function () {
+    function SysServicesModule_0() {
     }
-    SysServicesModule = __decorate([
-        core_1.NgModule({
-            providers: [
-                services_1.SysService,
-                services_1.CollectionsService,
+    SysServicesModule_0 = __decorate([
+        core_1.NgModule({ providers: [
                 services_1.LanguageService,
-                services_1.EventsService,
-                services_1.ToastService,
-            ]
-        }), 
+                services_1.EventsService
+            ] }), 
         __metadata('design:paramtypes', [])
-    ], SysServicesModule);
-    return SysServicesModule;
+    ], SysServicesModule_0);
+    return SysServicesModule_0;
 }());
-exports.SysServicesModule = SysServicesModule;
+exports.SysServicesModule_0 = SysServicesModule_0;
+var SysServicesModule_1 = (function () {
+    function SysServicesModule_1() {
+    }
+    SysServicesModule_1 = __decorate([
+        core_1.NgModule({ providers: [
+                services_1.AuthService,
+                services_1.SysService,
+            ] }), 
+        __metadata('design:paramtypes', [])
+    ], SysServicesModule_1);
+    return SysServicesModule_1;
+}());
+exports.SysServicesModule_1 = SysServicesModule_1;
+var SysServicesModule_2 = (function () {
+    function SysServicesModule_2() {
+    }
+    SysServicesModule_2 = __decorate([
+        core_1.NgModule({ providers: [
+                services_1.CollectionsService,
+            ] }), 
+        __metadata('design:paramtypes', [])
+    ], SysServicesModule_2);
+    return SysServicesModule_2;
+}());
+exports.SysServicesModule_2 = SysServicesModule_2;

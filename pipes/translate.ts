@@ -10,7 +10,7 @@ export class TranslatePipe {
 		private languageService: LanguageService
 	){}
 
-	transform( word: String, scope: String = '_' ): String {
+	transform( word: String, scope: String = 'default' ): String {
 		return this.languageService.translate( word, scope );
 	}
 }

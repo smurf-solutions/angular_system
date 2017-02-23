@@ -1,54 +1,72 @@
-﻿import { Injectable }             from '@angular/core';
-import { MdDialog }               from '@angular/material';
-import { Router }                 from '@angular/router';
-import { Observable }             from 'rxjs/Observable';
+﻿import { Injectable }             from '@angular/core'
+import { EventEmitter }           from '@angular/core'
+import { MdDialog }               from '@angular/material'
+import { Observable }             from 'rxjs/Observable'
 
-import { LoginModalComponent }    from '@sys/modals';
+import { LoginModalComponent }    from '@sys/modals'
+import { EventsService }          from '@sys/services'
 
 
 @Injectable()
 export class AuthService {
-	dbUrl:String;// = "//localhost:3000/collections/demo/";
-	user: String; 
-	pass: String;
+	onLoginChanged = new EventEmitter()
+	dbUrl:String // = "//localhost:3000/collections/demo/"
+	user: String
+	pass: String
 	
 	constructor(
 		public dialog: MdDialog,
-		public router: Router,
+		public events: EventsService,
 	) {
-		let first = Object.values( JSON.parse( localStorage.loginDatas || '{}' ) ).shift();
-		if( first ) {
-			this.dbUrl = first.db;
-			this.user  = first.user;
-			this.pass  = first.pass;
-		}
+		this.restoreLastLogin()
 	}
+	
+	private storeLastLogin(){
+		let l = { dbUrl: this.dbUrl, user: this.user, pass: this.encode(this.pass) }
+		localStorage.setItem( 'lastAccess', this.encode(JSON.stringify( l )) )
+	}
+	private restoreLastLogin() {
+		try {
+			let l = JSON.parse( this.decode( localStorage.getItem( 'lastAccess' ) ) )
+			this.dbUrl = l.dbUrl
+			this.user = l.user
+			this.pass = this.decode( l.pass )
+		} catch( err ) {}
+	}
+	
+	
+	// base64 encoded/decode ascii to ucs-2 string
+	private encode( str ) { 
+		return window.btoa(escape(encodeURIComponent(str)))
+	}
+	private decode( str ) { 
+		try {
+			return decodeURIComponent(unescape(window.atob(str)))
+		} catch(err) { return ''; }
+	}
+	
 	
 	getToken(): String {
-		var token = [this.user, this.pass ];
-		return btoa( JSON.stringify( token ) ); 
+		var token = [this.user, this.pass ]
+		return btoa( JSON.stringify( token ) )
 	}
 	
-	loginModal(): Observable {
-		let dialogRef = this.dialog.open( LoginModalComponent );
+	loginModal(): void {
+		let dialogRef = this.dialog.open( LoginModalComponent )
 					
-		dialogRef.componentInstance.user = this.user;
-		dialogRef.componentInstance.pass = this.pass;
-		dialogRef.componentInstance.db   = this.dbUrl;
+		dialogRef.componentInstance.user = this.user
+		dialogRef.componentInstance.pass = this.pass
+		dialogRef.componentInstance.db   = this.dbUrl
 		
-		return dialogRef.afterClosed().do( res => {			
+		dialogRef.afterClosed().subscribe( res => {			
 				if( res ) {
-					this.user  = res.user;
-					this.pass  = res.pass;
-					this.dbUrl = res.db;
-					// this.events.loginChanged.emit(  );
-				} else {
-					this.routeToHome();
-				}
+					this.user  = res.user
+					this.pass  = res.pass
+					this.dbUrl = res.db
+					this.storeLastLogin()
+					this.events.loginChanged.emit()
+				} 
 			} )
-	}
-	routeToHome(){
-		this.router.navigateByUrl('/Home');
 	}
 }
 

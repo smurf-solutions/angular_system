@@ -13,39 +13,44 @@ var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 var ng2_toasty_1 = require('ng2-toasty');
 var services_1 = require('@sys/services');
+var services_2 = require('@sys/services');
+var services_3 = require('@sys/services');
 var CollectionsService = (function () {
-    function CollectionsService(auth, http, toasty) {
+    function CollectionsService(auth, http, toasty, on, lang) {
+        var _this = this;
         this.auth = auth;
         this.http = http;
         this.toasty = toasty;
-        this.data = {};
-        this.loginChangedEmitter = new core_1.EventEmitter();
+        this.on = on;
+        this.lang = lang;
+        this.cache = {};
+        this.on.loginChanged.subscribe(function (res) { return _this.cache = {}; });
     }
     CollectionsService.prototype.handleError = function (error) {
         console.log(error);
     };
     CollectionsService.prototype.handleMessages = function (res) {
         if (res.success) {
-            this.toasty.success("Записът е успеше");
+            this.toasty.success(this.lang.translate("Saved successfully", 'messages'));
         }
         else if (res.error) {
-            this.toasty.error("Не може да се запише");
+            this.toasty.error(this.lang.translate("Cannot save", 'messages'));
         }
         if (res.msg) {
             switch (res.msg.type) {
                 case 'success':
-                    this.toasty.success(res.msg);
+                    this.toasty.success(this.lang.translate(res.msg, 'messages'));
                     break;
                 case 'error':
-                    this.toasty.error(res.msg);
+                    this.toasty.error(this.lang.translate(res.msg, 'messages'));
                     break;
                 case 'warning':
-                    this.toasty.warning(res.msg);
+                    this.toasty.warning(this.lang.translate(res.msg, 'messages'));
                     break;
                 case 'wait':
-                    this.toasty.wait(res.msg);
+                    this.toasty.wait(this.lang.translate(res.msg, 'messages'));
                     break;
-                default: this.toasty.info(res.msg);
+                default: this.toasty.info(this.lang.translate(res.msg, 'messages'));
             }
         }
     };
@@ -53,20 +58,19 @@ var CollectionsService = (function () {
         var _this = this;
         var options = { headers: { token: this.auth.getToken() } };
         return this.http.get(db + collection, options).map(function (res) { return res.json(); })
-            .catch(function (err) { return _this.toasty.error('Login error'); })
+            .catch(function (err) { return _this.toasty.error({ title: _this.lang.translate('Connection error', 'messages'), msg: err.status + ' ' + err.statusText }); })
             .do(function (res) {
             if (res.access && res.access == 'DENIDED') {
-                _this.toasty.error('Access DENIDED');
+                _this.toasty.error(_this.lang.translate('Access DENIDED', 'messages'));
             }
-        }, function (err) { return _this.toasty.error('Login error'); });
+        });
     };
     CollectionsService.prototype.get = function (collection, where) {
-        if (!this.data[collection]) {
-            console.log(this.auth.dbUrl);
+        if (!this.cache[collection]) {
             return this.load(this.auth.dbUrl, collection);
         }
         else {
-            return Observable_1.Observable.of(this.data[collection]);
+            return Observable_1.Observable.of(this.cache[collection]);
         }
     };
     CollectionsService.prototype.post = function (collection, data, where) {
@@ -78,9 +82,9 @@ var CollectionsService = (function () {
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof services_1.AuthService !== 'undefined' && services_1.AuthService) === 'function' && _a) || Object, http_1.Http, ng2_toasty_1.ToastyService])
+        __metadata('design:paramtypes', [(typeof (_a = typeof services_1.AuthService !== 'undefined' && services_1.AuthService) === 'function' && _a) || Object, http_1.Http, ng2_toasty_1.ToastyService, (typeof (_b = typeof services_2.EventsService !== 'undefined' && services_2.EventsService) === 'function' && _b) || Object, (typeof (_c = typeof services_3.LanguageService !== 'undefined' && services_3.LanguageService) === 'function' && _c) || Object])
     ], CollectionsService);
     return CollectionsService;
-    var _a;
+    var _a, _b, _c;
 }());
 exports.CollectionsService = CollectionsService;

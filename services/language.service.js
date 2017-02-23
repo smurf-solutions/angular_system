@@ -10,25 +10,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var ng2_toasty_1 = require('ng2-toasty');
+var Dictionaries = require('i18n.js');
 var LanguageService = (function () {
-    function LanguageService(http) {
+    function LanguageService(http, toasty) {
         this.http = http;
-        this.lang = "bg";
-        this.getDictionary();
+        this.toasty = toasty;
+        this.lang = localStorage.getItem('lang') || Object.keys(Dictionaries)[0];
+        this.avaibleDictionaries = this.getAvaibleDictionaries();
     }
-    LanguageService.prototype.getDictionary = function () {
-        var _this = this;
-        if (!this.dictionary)
-            this.http.get("i18n/" + this.lang + ".json")
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                _this.dictionary = res;
-            });
+    LanguageService.prototype.getAvaibleDictionaries = function () {
+        var ret = [];
+        Object.keys(Dictionaries).forEach(function (k) {
+            ret.push({ iso: k, title: Dictionaries[k]['_'].title });
+        });
+        return ret;
+    };
+    LanguageService.prototype.changeLang = function (lang) {
+        localStorage.setItem('lang', lang);
+        this.lang = lang;
     };
     LanguageService.prototype.translate = function (word, scope) {
-        if (scope === void 0) { scope = "�"; }
-        if (this.dictionary && this.dictionary[scope] && this.dictionary[scope][word]) {
-            return this.dictionary[scope][word];
+        if (scope === void 0) { scope = "default"; }
+        if (Dictionaries[this.lang]
+            && Dictionaries[this.lang][scope]
+            && Dictionaries[this.lang][scope][word]) {
+            return Dictionaries[this.lang][scope][word];
         }
         else {
             return word;
@@ -36,7 +43,7 @@ var LanguageService = (function () {
     };
     LanguageService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, ng2_toasty_1.ToastyService])
     ], LanguageService);
     return LanguageService;
 }());

@@ -15,7 +15,7 @@ var TranslatePipe = (function () {
         this.languageService = languageService;
     }
     TranslatePipe.prototype.transform = function (word, scope) {
-        if (scope === void 0) { scope = '_'; }
+        if (scope === void 0) { scope = 'default'; }
         return this.languageService.translate(word, scope);
     };
     TranslatePipe = __decorate([

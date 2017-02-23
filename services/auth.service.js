@@ -9,20 +9,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var core_2 = require('@angular/core');
 var material_1 = require('@angular/material');
-var router_1 = require('@angular/router');
 var modals_1 = require('@sys/modals');
+var services_1 = require('@sys/services');
 var AuthService = (function () {
-    function AuthService(dialog, router) {
+    function AuthService(dialog, events) {
         this.dialog = dialog;
-        this.router = router;
-        var first = Object.values(JSON.parse(localStorage.loginDatas || '{}')).shift();
-        if (first) {
-            this.dbUrl = first.db;
-            this.user = first.user;
-            this.pass = first.pass;
-        }
+        this.events = events;
+        this.onLoginChanged = new core_2.EventEmitter();
+        this.restoreLastLogin();
     }
+    AuthService.prototype.storeLastLogin = function () {
+        var l = { dbUrl: this.dbUrl, user: this.user, pass: this.encode(this.pass) };
+        localStorage.setItem('lastAccess', this.encode(JSON.stringify(l)));
+    };
+    AuthService.prototype.restoreLastLogin = function () {
+        try {
+            var l = JSON.parse(this.decode(localStorage.getItem('lastAccess')));
+            this.dbUrl = l.dbUrl;
+            this.user = l.user;
+            this.pass = this.decode(l.pass);
+        }
+        catch (err) { }
+    };
+    AuthService.prototype.encode = function (str) {
+        return window.btoa(escape(encodeURIComponent(str)));
+    };
+    AuthService.prototype.decode = function (str) {
+        try {
+            return decodeURIComponent(unescape(window.atob(str)));
+        }
+        catch (err) {
+            return '';
+        }
+    };
     AuthService.prototype.getToken = function () {
         var token = [this.user, this.pass];
         return btoa(JSON.stringify(token));
@@ -33,24 +54,21 @@ var AuthService = (function () {
         dialogRef.componentInstance.user = this.user;
         dialogRef.componentInstance.pass = this.pass;
         dialogRef.componentInstance.db = this.dbUrl;
-        return dialogRef.afterClosed().do(function (res) {
+        dialogRef.afterClosed().subscribe(function (res) {
             if (res) {
                 _this.user = res.user;
                 _this.pass = res.pass;
                 _this.dbUrl = res.db;
-            }
-            else {
-                _this.routeToHome();
+                _this.storeLastLogin();
+                _this.events.loginChanged.emit();
             }
         });
     };
-    AuthService.prototype.routeToHome = function () {
-        this.router.navigateByUrl('/Home');
-    };
     AuthService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [material_1.MdDialog, router_1.Router])
+        __metadata('design:paramtypes', [material_1.MdDialog, (typeof (_a = typeof services_1.EventsService !== 'undefined' && services_1.EventsService) === 'function' && _a) || Object])
     ], AuthService);
     return AuthService;
+    var _a;
 }());
 exports.AuthService = AuthService;
