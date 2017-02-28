@@ -3,6 +3,7 @@ import { MaterialModule }          from '@angular/material';
 import { FlexLayoutModule }        from '@angular/flex-layout';
 import { CommonModule }            from '@angular/common';
 
+import { PipeModules }             from '@sys/pipes'
 
 @Component({
 	styles: [ `md-dialog-content { min-width: 300px; text-align: center }`,
@@ -33,7 +34,7 @@ export class AlertModalComponent {
 
 
 @NgModule({
-	imports: [ CommonModule, MaterialModule, FlexLayoutModule ],
+	imports: [ CommonModule, MaterialModule, FlexLayoutModule, PipeModules ],
 	declarations: [ AlertModalComponent ],
 	entryComponents: [ AlertModalComponent ]
 })

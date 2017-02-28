@@ -46,9 +46,9 @@ export class AuthService {
 	}
 	
 	
-	getToken(): String {
-		var token = [this.user, this.pass ]
-		return btoa( JSON.stringify( token ) )
+	getHeader() {
+		var token = btoa( this.user + ':' + this.pass )
+		return { headers: { Authorization: 'Basic ' + token } }
 	}
 	
 	loginModal(): void {

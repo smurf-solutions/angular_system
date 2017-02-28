@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var material_1 = require('@angular/material');
 var flex_layout_1 = require('@angular/flex-layout');
 var common_1 = require('@angular/common');
+var pipes_1 = require('@sys/pipes');
 var ConfirmModalComponent = (function () {
     function ConfirmModalComponent(dialogRef) {
         this.dialogRef = dialogRef;
@@ -29,7 +30,7 @@ var ConfirmModalComponent = (function () {
                 "md-dialog-content .td { vertical-align:center }",
                 ".dialog-icon { font-size: 44px; margin-right: 30px } "
             ],
-            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<table><tr>\n\t\t\t\t<td> <md-icon [color]=\"color\" class=\"dialog-icon\" *ngIf=\"icon\">{{ icon }}</md-icon></td>\n\t\t\t\t<td>{{ message }}</td>\n\t\t\t</tr></table>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions> \n\t\t\t<button md-button md-dialog-close> {{ buttonCancel }} </button>\n\t\t\t<button md-raised-button [color]=\"color\" (click)=\"dialogRef.close('yes')\"> {{ buttonOk }} </button> \n\t\t</md-dialog-actions>\n\t"
+            template: "\n\t\t<div fxLayout>\n\t\t\t<h2 fxFlex md-dialog-title> {{ title|translate }} </h2>\n\t\t\t<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>\n\t\t</div>\n\t\t<md-dialog-content>\n\t\t\t<table><tr>\n\t\t\t\t<td> <md-icon [color]=\"color\" class=\"dialog-icon\" *ngIf=\"icon\">{{ icon }}</md-icon></td>\n\t\t\t\t<td [innerHTML]=\"message|translate\" align=\"left\"></td>\n\t\t\t</tr></table>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions fxLayout=\"row\">\n\t\t\t<div fxFlex></div>\n\t\t\t<button md-raised-button [color]=\"color\" (click)=\"dialogRef.close('yes')\"> {{ buttonOk|translate }} </button> \n\t\t\t&nbsp;\n\t\t\t<button md-button md-dialog-close> {{ buttonCancel|translate }} </button>\n\t\t</md-dialog-actions>\n\t"
         }), 
         __metadata('design:paramtypes', [material_1.MdDialogRef])
     ], ConfirmModalComponent);
@@ -41,7 +42,7 @@ var ConfirmModalModule = (function () {
     }
     ConfirmModalModule = __decorate([
         core_1.NgModule({
-            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule],
+            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule, pipes_1.PipeModules],
             declarations: [ConfirmModalComponent],
             entryComponents: [ConfirmModalComponent]
         }), 

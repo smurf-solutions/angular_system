@@ -21,10 +21,12 @@ import { AuthService }                  from '@sys/services';
 			<button md-icon-button md-dialog-close><md-icon>cancel</md-icon></button>
 		</div>
 		<md-dialog-content>
+				
 				<div fxLayout="row">
 					<md-input-container fxFlex>
 						<input mdInput [(ngModel)]="db" placeholder="{{'Database'|translate}} URL" 
 							autofocus autocomplete="off" (keyup.enter)="submitLogin()">
+						<a mdSuffix href="{{ db }}" target="_null" > <md-icon style="width:1.1em;height:1em;font-size:1.1em">launch</md-icon> </a>
 					</md-input-container>
 					<!--
 					<div>

@@ -4,14 +4,22 @@
 2. По-ранното изписване на export-а тук
  = предизвиква по-ранно иницализиране от дефинирането в тукащния модул.
  */
-export { EventsService }      from './events.service.js';
-export { LanguageService }    from './language.service.js';
-export { AuthService }        from './auth.service.js';
+ /** Export **/
+ // first init
+export { EventsService }      from './events.service.js'
+export { LanguageService }    from './language.service.js'
+export { AuthService }        from './auth.service.js'
+export { ProgressService }    from './progress.service.js'
 
-export { SysService }         from './sys.service.js';
-export { CollectionsService } from './collections.service.js';
+// second init
+export { SysService }         from './sys.service.js'
+export { CollectionsService } from './collections.service.js'
+
+// not injectable
+export { QueryService }       from './query.service.js'
 
 
+/** Ibject **/
 import { NgModule }           from '@angular/core';
 import { 
 	EventsService,
@@ -19,8 +27,8 @@ import {
 	SysService,
 	CollectionsService,
 	LanguageService,
-} from '@sys/services';
-
+	ProgressService
+} from '@sys/services'
 
 @NgModule({ providers: [
 	LanguageService,
@@ -29,13 +37,14 @@ import {
 export class SysServicesModule_0 {}
 
 @NgModule({ providers: [
-	AuthService, 
-	SysService,
+	AuthService,
+	ProgressService,	
+	SysService
 ]})
 export class SysServicesModule_1 {}
 
 @NgModule({ providers: [
-	CollectionsService,
+	CollectionsService
 ]})
 export class SysServicesModule_2 {}
 

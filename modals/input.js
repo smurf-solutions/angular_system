@@ -13,6 +13,7 @@ var common_1 = require('@angular/common');
 var material_1 = require('@angular/material');
 var flex_layout_1 = require('@angular/flex-layout');
 var forms_1 = require('@angular/forms');
+var pipes_1 = require('@sys/pipes');
 var InputModalComponent = (function () {
     function InputModalComponent(dialogRef) {
         this.dialogRef = dialogRef;
@@ -42,7 +43,7 @@ var InputModalModule = (function () {
     }
     InputModalModule = __decorate([
         core_1.NgModule({
-            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule, forms_1.FormsModule],
+            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule, forms_1.FormsModule, pipes_1.PipeModules],
             declarations: [InputModalComponent],
             entryComponents: [InputModalComponent]
         }), 

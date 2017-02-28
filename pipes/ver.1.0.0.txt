@@ -1,2 +1,6 @@
 dump
+getValueOfType
+hightlight
+orderBy
 search
+translate

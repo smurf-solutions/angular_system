@@ -23,25 +23,25 @@ var OrderByPipe = (function () {
                 var aa = a[props[0]], bb = b[props[0]];
             }
             else if (props.length == 2) {
-                var aa = a[props[0]][props[1]], bb = b[props[0]][props[1]];
+                var aa = a[props[0]] ? a[props[0]][props[1]] : '', bb = b[props[0]] ? b[props[0]][props[1]] : '';
             }
             else if (props.length == 3) {
-                var aa = a[props[0]][props[1]][props[2]], bb = b[props[0]][props[1]][props[2]];
+                var aa = a[props[0]] && a[props[0]][props[1]] ? a[props[0]][props[1]][props[2]] : '', bb = b[props[0]] && b[props[0]][props[1]] ? b[props[0]][props[1]][props[2]] : '';
             }
             else if (props.length == 4) {
-                var aa = a[props[0]][props[1]][props[2]][props[3]], bb = b[props[0]][props[1]][props[2]][props[3]];
+                var aa = a[props[0]] && a[props[0]][props[1]] && a[props[0]][props[1]][props[2]] ? a[props[0]][props[1]][props[2]][props[3]] : '', bb = b[props[0]] && b[props[0]][props[1]] && b[props[0]][props[1]][props[2]] ? b[props[0]][props[1]][props[2]][props[3]] : '';
             }
             else if (props.length == 5) {
-                var aa = a[props[0]][props[1]][props[2]][props[3]][props[4]], bb = b[props[0]][props[1]][props[2]][props[4]];
+                var aa = a[props[0]] && a[props[0]][props[1]] && a[props[0]][props[1]][props[2]] && a[props[0]][props[1]][props[2]][props[3]] ? a[props[0]][props[1]][props[2]][props[3]][props[4]] : '', bb = b[props[0]] && b[props[0]][props[1]] && b[props[0]][props[1]][props[2]] && b[props[0]][props[1]][props[2]][props[3]] ? b[props[0]][props[1]][props[2]][props[3]][props[4]] : '';
             }
             if (!aa)
                 aa = '';
             if (!bb)
                 bb = '';
             if ((isNaN(parseFloat(aa)) || !isFinite(aa)) || (isNaN(parseFloat(bb)) || !isFinite(bb))) {
-                if (aa.toLowerCase() < bb.toLowerCase())
+                if (aa.toString().toLowerCase() < bb.toString().toLowerCase())
                     return -1 * sign;
-                if (aa.toLowerCase() > bb.toLowerCase())
+                if (aa.toString().toLowerCase() > bb.toString().toLowerCase())
                     return 1 * sign;
             }
             else {

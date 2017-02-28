@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var material_1 = require('@angular/material');
 var flex_layout_1 = require('@angular/flex-layout');
 var common_1 = require('@angular/common');
+var pipes_1 = require('@sys/pipes');
 var AlertModalComponent = (function () {
     function AlertModalComponent() {
         this.title = 'Alert';
@@ -37,7 +38,7 @@ var AlertModalModule = (function () {
     }
     AlertModalModule = __decorate([
         core_1.NgModule({
-            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule],
+            imports: [common_1.CommonModule, material_1.MaterialModule, flex_layout_1.FlexLayoutModule, pipes_1.PipeModules],
             declarations: [AlertModalComponent],
             entryComponents: [AlertModalComponent]
         }), 

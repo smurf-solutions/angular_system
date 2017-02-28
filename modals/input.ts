@@ -4,6 +4,7 @@ import { MaterialModule, MdDialogRef }   from '@angular/material';
 import { FlexLayoutModule }              from '@angular/flex-layout';
 import { FormsModule }                   from '@angular/forms';
 
+import { PipeModules }                   from '@sys/pipes'
 
 @Component({
 	styles: [ 
@@ -42,7 +43,7 @@ export class InputModalComponent {
 
 
 @NgModule({
-	imports: [ CommonModule, MaterialModule, FlexLayoutModule, FormsModule ],
+	imports: [ CommonModule, MaterialModule, FlexLayoutModule, FormsModule, PipeModules ],
 	declarations: [ InputModalComponent ],
 	entryComponents: [ InputModalComponent ]
 })

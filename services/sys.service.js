@@ -16,18 +16,13 @@ var SysService = (function () {
     SysService.prototype.store = function (obj, key, exclude) {
         var _this = this;
         this.storage[key] = this.storage[key] || {};
-        if (!exclude) {
-            this.storage[key] = obj;
-        }
-        else {
-            exclude = exclude || [];
-            var methods = Object.keys(obj);
-            methods.forEach(function (method) {
-                if (!(obj[method] instanceof SysService))
-                    if (exclude.indexOf(method) == -1)
-                        _this.storage[key][method] = obj[method];
-            });
-        }
+        exclude = exclude || [];
+        Object.keys(obj).forEach(function (method) {
+            if (obj[method]
+                && !obj[method].constructor.name.match(/(^Md|Service$)/)
+                && exclude.indexOf(method) == -1)
+                _this.storage[key][method] = obj[method];
+        });
     };
     SysService.prototype.restore = function (obj, key) {
         var _this = this;

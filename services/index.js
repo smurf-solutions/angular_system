@@ -14,10 +14,14 @@ var language_service_js_1 = require('./language.service.js');
 exports.LanguageService = language_service_js_1.LanguageService;
 var auth_service_js_1 = require('./auth.service.js');
 exports.AuthService = auth_service_js_1.AuthService;
+var progress_service_js_1 = require('./progress.service.js');
+exports.ProgressService = progress_service_js_1.ProgressService;
 var sys_service_js_1 = require('./sys.service.js');
 exports.SysService = sys_service_js_1.SysService;
 var collections_service_js_1 = require('./collections.service.js');
 exports.CollectionsService = collections_service_js_1.CollectionsService;
+var query_service_js_1 = require('./query.service.js');
+exports.QueryService = query_service_js_1.QueryService;
 var core_1 = require('@angular/core');
 var services_1 = require('@sys/services');
 var SysServicesModule_0 = (function () {
@@ -39,7 +43,8 @@ var SysServicesModule_1 = (function () {
     SysServicesModule_1 = __decorate([
         core_1.NgModule({ providers: [
                 services_1.AuthService,
-                services_1.SysService,
+                services_1.ProgressService,
+                services_1.SysService
             ] }), 
         __metadata('design:paramtypes', [])
     ], SysServicesModule_1);
@@ -51,7 +56,7 @@ var SysServicesModule_2 = (function () {
     }
     SysServicesModule_2 = __decorate([
         core_1.NgModule({ providers: [
-                services_1.CollectionsService,
+                services_1.CollectionsService
             ] }), 
         __metadata('design:paramtypes', [])
     ], SysServicesModule_2);

@@ -25,10 +25,15 @@ export class LanguageService {
 	changeLang( lang ) : void {
 		localStorage.setItem( 'lang', lang );
 		this.lang = lang;
-		//this.toasty.warning( this.translate('You have to reload') );
 	}
 	
 	translate( word: String, scope: String = "default") : String {
+		if( Array.isArray( word ) ) {
+			let _this = this, res = ''
+			word.forEach( w => res += ' '+_this.translate( w, scope ) )
+			return res.substring( 1 )
+		}
+		
 		if(    Dictionaries[this.lang] 
 			&& Dictionaries[this.lang][scope] 
 			&& Dictionaries[this.lang][scope][word] 

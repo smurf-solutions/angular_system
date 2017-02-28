@@ -15,26 +15,34 @@ var ng2_toasty_1 = require('ng2-toasty');
 var services_1 = require('@sys/services');
 var services_2 = require('@sys/services');
 var services_3 = require('@sys/services');
+var services_4 = require('@sys/services');
 var CollectionsService = (function () {
-    function CollectionsService(auth, http, toasty, on, lang) {
+    function CollectionsService(auth, http, toasty, events, lang, progress) {
         var _this = this;
         this.auth = auth;
         this.http = http;
         this.toasty = toasty;
-        this.on = on;
+        this.events = events;
         this.lang = lang;
+        this.progress = progress;
         this.cache = {};
-        this.on.loginChanged.subscribe(function (res) { return _this.cache = {}; });
+        this.events.loginChanged.subscribe(function (res) { return _this.cache = {}; });
     }
-    CollectionsService.prototype.handleError = function (error) {
-        console.log(error);
+    CollectionsService.prototype.handleError = function (err) {
+        this.toasty.error({ title: this.lang.translate('Connection error', 'messages'), msg: err.status + ' ' + err.statusText });
+        if (err.status == 0 && err.type == 3)
+            this.progress.requests = 0;
     };
     CollectionsService.prototype.handleMessages = function (res) {
         if (res.success) {
-            this.toasty.success(this.lang.translate("Saved successfully", 'messages'));
+            this.toasty.success(this.lang.translate("Modified records", "messages") + ": " + res.success);
         }
         else if (res.error) {
             this.toasty.error(this.lang.translate("Cannot save", 'messages'));
+            console.error(res.error);
+        }
+        else if (typeof res.success !== 'undefined') {
+            this.toasty.info(this.lang.translate('No records modified', 'messages'));
         }
         if (res.msg) {
             switch (res.msg.type) {
@@ -54,37 +62,56 @@ var CollectionsService = (function () {
             }
         }
     };
-    CollectionsService.prototype.load = function (db, collection) {
+    CollectionsService.prototype.load = function (url) {
         var _this = this;
-        var options = { headers: { token: this.auth.getToken() } };
-        return this.http.get(db + collection, options).map(function (res) { return res.json(); })
-            .catch(function (err) { return _this.toasty.error({ title: _this.lang.translate('Connection error', 'messages'), msg: err.status + ' ' + err.statusText }); })
+        return this.http.get(url, this.auth.getHeader()).map(function (res) { return res.json(); })
+            .catch(function (err) { return _this.handleError(err); })
             .do(function (res) {
             if (res.access && res.access == 'DENIDED') {
                 _this.toasty.error(_this.lang.translate('Access DENIDED', 'messages'));
             }
         });
     };
-    CollectionsService.prototype.get = function (collection, where) {
-        if (!this.cache[collection]) {
-            return this.load(this.auth.dbUrl, collection);
+    CollectionsService.prototype.get = function (collection, urlParams) {
+        if (typeof urlParams == 'object')
+            urlParams = JSON.stringify(urlParams);
+        var url = this.auth.dbUrl + collection + (urlParams ? "?find=" + urlParams : "");
+        if (!this.cache[url]) {
+            return this.load(url, collection);
         }
         else {
-            return Observable_1.Observable.of(this.cache[collection]);
+            return Observable_1.Observable.of(this.cache[url]);
         }
     };
-    CollectionsService.prototype.post = function (collection, data, where) {
+    CollectionsService.prototype.post = function (collection, data, urlParams) {
         var _this = this;
-        return this.http.post(this.auth.dbUrl + collection, data)
+        if (typeof urlParams == 'object')
+            urlParams = JSON.stringify(urlParams);
+        var url = this.auth.dbUrl + collection + (urlParams ? '?update=' + urlParams : "");
+        if (data._id && !data.$set) {
+            data = { _id: data._id, $set: data };
+            delete data.$set._id;
+        }
+        return this.http.post(url, data, this.auth.getHeader())
+            .catch(function (err) { return _this.handleError(err); })
             .map(function (res) { return res.json(); })
-            .do(function (res) { _this.handleMessages(res); })
-            .catch(this.handleError);
+            .do(function (res) { _this.handleMessages(res); });
+    };
+    CollectionsService.prototype.remove = function (collection, urlParams) {
+        var _this = this;
+        if (typeof urlParams == 'object')
+            urlParams = JSON.stringify(urlParams);
+        var url = this.auth.dbUrl + collection + '?remove=' + urlParams;
+        return this.http.delete(url, this.auth.getHeader())
+            .catch(function (err) { return _this.handleError(err); })
+            .map(function (res) { return res.json(); })
+            .do(function (res) { return _this.handleMessages(res); });
     };
     CollectionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof services_1.AuthService !== 'undefined' && services_1.AuthService) === 'function' && _a) || Object, http_1.Http, ng2_toasty_1.ToastyService, (typeof (_b = typeof services_2.EventsService !== 'undefined' && services_2.EventsService) === 'function' && _b) || Object, (typeof (_c = typeof services_3.LanguageService !== 'undefined' && services_3.LanguageService) === 'function' && _c) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof services_1.AuthService !== 'undefined' && services_1.AuthService) === 'function' && _a) || Object, http_1.Http, ng2_toasty_1.ToastyService, (typeof (_b = typeof services_2.EventsService !== 'undefined' && services_2.EventsService) === 'function' && _b) || Object, (typeof (_c = typeof services_3.LanguageService !== 'undefined' && services_3.LanguageService) === 'function' && _c) || Object, (typeof (_d = typeof services_4.ProgressService !== 'undefined' && services_4.ProgressService) === 'function' && _d) || Object])
     ], CollectionsService);
     return CollectionsService;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 exports.CollectionsService = CollectionsService;

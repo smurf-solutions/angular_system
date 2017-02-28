@@ -32,6 +32,11 @@ var LanguageService = (function () {
     };
     LanguageService.prototype.translate = function (word, scope) {
         if (scope === void 0) { scope = "default"; }
+        if (Array.isArray(word)) {
+            var _this_1 = this, res_1 = '';
+            word.forEach(function (w) { return res_1 += ' ' + _this_1.translate(w, scope); });
+            return res_1.substring(1);
+        }
         if (Dictionaries[this.lang]
             && Dictionaries[this.lang][scope]
             && Dictionaries[this.lang][scope][word]) {

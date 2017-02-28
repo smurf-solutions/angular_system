@@ -44,9 +44,9 @@ var AuthService = (function () {
             return '';
         }
     };
-    AuthService.prototype.getToken = function () {
-        var token = [this.user, this.pass];
-        return btoa(JSON.stringify(token));
+    AuthService.prototype.getHeader = function () {
+        var token = btoa(this.user + ':' + this.pass);
+        return { headers: { Authorization: 'Basic ' + token } };
     };
     AuthService.prototype.loginModal = function () {
         var _this = this;

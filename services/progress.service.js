@@ -9,15 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var EventsService = (function () {
-    function EventsService() {
-        this.loginChanged = new core_1.EventEmitter;
-        this.stopProgress = new core_1.EventEmitter;
+var ProgressService = (function () {
+    function ProgressService() {
+        this.requests = 0;
+        var obj = this;
+        var XMLHttpRequest_originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function () {
+            obj.requests++;
+            this.addEventListener('load', function () {
+                if (obj.requests > 0)
+                    obj.requests--;
+            });
+            XMLHttpRequest_originalOpen.apply(this, arguments);
+        };
     }
-    EventsService = __decorate([
+    ProgressService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], EventsService);
-    return EventsService;
+    ], ProgressService);
+    return ProgressService;
 }());
-exports.EventsService = EventsService;
+exports.ProgressService = ProgressService;
